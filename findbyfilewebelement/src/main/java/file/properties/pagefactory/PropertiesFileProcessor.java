@@ -1,6 +1,7 @@
 package file.properties.pagefactory;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.Set;
@@ -20,29 +21,29 @@ public class PropertiesFileProcessor implements FileProcessor {
 	public void dataSourceDetails(Field field) {
 		PropertiesFile propsFile = field.getDeclaringClass().getAnnotation(PropertiesFile.class);
 		path = propsFile.filePath();
-		delimiter = propsFile.delmiter();
+		delimiter = propsFile.delimiter();
 	}
 
 	@Override
 	public void parseDataSource() {
-		try {
-			Properties appProps = new Properties();
 
+		Properties appProps = new Properties();
+
+		try {
 			appProps.load(new FileInputStream(path));
 			Set<Object> keys = appProps.keySet();
-			
-			for(Object key : keys) {
+
+			for (Object key : keys) {
 				String[] keyDets = key.toString().split(delimiter);
 				String[] valDets = appProps.get(key).toString().split(delimiter);
 
 				Class<?> pkgCls = Class.forName(keyDets[0]);
-				
-				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), 
-						ByCreator.createBy(valDets[0], valDets[1]));
+
+				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), ByCreator.createBy(valDets[0], valDets[1]));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 		
+		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException e ) {
+			throw new RuntimeException(e);
+		}  
 	}
 
 	@Override

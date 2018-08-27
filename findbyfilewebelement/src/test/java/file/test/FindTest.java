@@ -73,7 +73,7 @@ public class FindTest {
 		System.out.println(data);*/
 		
 		Properties appProps = new Properties();
-		appProps.load(new FileInputStream("E:/sample-properties-file.txt"));
+		appProps.load(new FileInputStream("src/test/resources/sample-properties-file.txt"));
 		
 		System.out.println(appProps);
 		

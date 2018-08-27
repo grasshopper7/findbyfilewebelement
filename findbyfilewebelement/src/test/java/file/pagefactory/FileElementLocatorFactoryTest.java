@@ -15,13 +15,13 @@ import static org.mockito.Mockito.when;
 public class FileElementLocatorFactoryTest {
 
 	@Test
-	public void test() {
+	public void createElementLocatorTest() {
 		
 		SearchContext sc = mock(SearchContext.class);
 		FileProcessor fp = mock(FileProcessor.class);
 		Field f = mock(Field.class);
 		AbstractFileAnnotations afa = mock(AbstractFileAnnotations.class);
-		
+				
 		when(afa.isLookupCached()).thenReturn(true);
 		when(fp.getAnnotation(f)).thenReturn(afa);
 		

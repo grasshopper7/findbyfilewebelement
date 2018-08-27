@@ -11,5 +11,5 @@ public @interface PropertiesFile  {
 	
 	String filePath();
 	
-	String delmiter() default "##";
+	String delimiter() default "##";
 }

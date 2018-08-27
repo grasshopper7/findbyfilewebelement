@@ -32,8 +32,6 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		FindBys findBys = getField().getAnnotation(FindBys.class);
 		FindAll findAll = getField().getAnnotation(FindAll.class);
 		FindBy findBy = getField().getAnnotation(FindBy.class);
-		//FindByProperties findProps = getField().getAnnotation(FindByProperties.class);
-		//PropertiesFile propsFile = getField().getDeclaringClass().getAnnotation(PropertiesFile.class);
 		
 		if (fieldAnnotationExists && (findBys != null || findAll != null || findBy != null)) {
 			throw new IllegalArgumentException(

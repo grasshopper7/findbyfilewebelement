@@ -43,9 +43,10 @@ public class JsonFileProcessor implements FileProcessor{
 							ByCreator.createBy(fbdet.getHow(), fbdet.getUsing()));
 				}
 			}
+			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	@Override

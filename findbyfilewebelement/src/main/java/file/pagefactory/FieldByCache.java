@@ -21,4 +21,8 @@ public class FieldByCache {
 		fieldByStore.put(field, by);
 	}
 	
+	public static void removeDetails() {
+		fieldByStore.clear();
+	}
+	
 }
