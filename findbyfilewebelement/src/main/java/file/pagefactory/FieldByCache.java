@@ -1,7 +1,6 @@
 package file.pagefactory;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.openqa.selenium.By;
@@ -16,10 +15,6 @@ public class FieldByCache {
 	
 	public static boolean doesByExistForField(Field field) {
 		return fieldByStore.containsKey(field);
-	}
-
-	public static void addMapDetails(Map<Field, By> data) {
-		fieldByStore.putAll(data);
 	}
 	
 	public static void addDetail(Field field, By by) {
