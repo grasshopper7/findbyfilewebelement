@@ -75,6 +75,36 @@ public class PropertiesFileProcessorTest {
 		assertEquals("Exception thrown needs to be FileNotFoundExeption", FileNotFoundException.class, fnfe.getClass());
 	}
 	
+	@Test
+	public void testInValidPageObjectPath() throws Exception {
+		PropertiesFileProcessor pfp = new PropertiesFileProcessor();
+		InValidPageObjectPathPage pp = new InValidPageObjectPathPage();		
+		Field field = pp.getClass().getField("inValidPageObjectPath");
+		pfp.dataSourceDetails(field);
+		Throwable fnfe = null;
+		try{
+			pfp.parseDataSource();		
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be ClassNotFoundException", ClassNotFoundException.class, fnfe.getClass());
+	}
+	
+	@Test
+	public void testInValidFieldName() throws Exception {
+		PropertiesFileProcessor pfp = new PropertiesFileProcessor();
+		InValidFieldNamePage pp = new InValidFieldNamePage();		
+		Field field = pp.getClass().getField("inValidFieldName");
+		pfp.dataSourceDetails(field);
+		Throwable fnfe = null;
+		try{
+			pfp.parseDataSource();		
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be NoSuchFieldException", NoSuchFieldException.class, fnfe.getClass());
+	}
+	
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathDefaultDelimiterData.txt")
 	public class ValidFilePathDefaultDelimiterPage{		
@@ -88,10 +118,22 @@ public class PropertiesFileProcessorTest {
 		public WebElement validFileCustomDelim;
 	}
 
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathrData.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathData.txt")
 	public class InValidFilePathCustomDelimiterPage{
 		@FindByProperties
 		public WebElement inValidFile;
+	}
+	
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidPageObjectPathData.txt")
+	public class InValidPageObjectPathPage{
+		@FindByProperties
+		public WebElement inValidPageObjectPath;
+	}
+	
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidFieldNameData.txt")
+	public class InValidFieldNamePage{
+		@FindByProperties
+		public WebElement inValidFieldName;
 	}
 }
 
