@@ -3,6 +3,7 @@ package file.properties.pagefactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.Properties;
 import java.util.Set;
 
@@ -29,19 +30,24 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 		Properties appProps = new Properties();
 
-		try {
-			appProps.load(new FileInputStream(path));
+		try(FileInputStream fis = new FileInputStream(path);) {
+			appProps.load(fis);
 			Set<Object> keys = appProps.keySet();
 
 			for (Object key : keys) {
 				String[] keyDets = key.toString().split(delimiter);
 				String[] valDets = appProps.get(key).toString().split(delimiter);
+				
+				if(keyDets.length != 2 || valDets.length != 2)
+					throw new ParseException("Delimiter not present or incorrect in key or value in line - "
+							+ key.toString() + "=" + appProps.get(key).toString(), 0);					
 
 				Class<?> pkgCls = Class.forName(keyDets[0]);
 
 				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), ByCreator.createBy(valDets[0], valDets[1]));
 			}
-		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException e ) {
+			
+		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException | ParseException e ) {
 			throw new RuntimeException(e);
 		}  
 	}
