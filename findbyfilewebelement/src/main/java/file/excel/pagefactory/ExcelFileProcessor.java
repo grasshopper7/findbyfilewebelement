@@ -48,7 +48,7 @@ public class ExcelFileProcessor implements FileProcessor {
 					pkgCls = Class.forName(pkgClsName);
 
 				FieldByCache.addDetail(pkgCls.getDeclaredField(dataFormatter.formatCellValue(row.getCell(1))),
-						ByCreator.createBy(dataFormatter.formatCellValue(row.getCell(2)),
+						ByCreator.createBy(dataFormatter.formatCellValue(row.getCell(2)).toUpperCase(),
 								dataFormatter.formatCellValue(row.getCell(3))));
 			}
 			workbook.close();

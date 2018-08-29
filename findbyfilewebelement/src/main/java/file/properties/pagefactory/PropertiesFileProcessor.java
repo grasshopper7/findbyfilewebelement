@@ -26,7 +26,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public synchronized void parseDataSource(Field field) {
+	public void parseDataSource(Field field) {
 
 		// If data is got from previous parsing then return.
 		if (FieldByCache.doesByExistForField(field))
@@ -48,10 +48,12 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 				Class<?> pkgCls = Class.forName(keyDets[0]);
 
-				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), ByCreator.createBy(valDets[0], valDets[1]));
+				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), 
+						ByCreator.createBy(valDets[0].toUpperCase(), valDets[1]));
 			}
 
-		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException | ParseException e) {
+		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException 
+				| ParseException | IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		}
 	}

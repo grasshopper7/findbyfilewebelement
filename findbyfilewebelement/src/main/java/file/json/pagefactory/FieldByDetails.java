@@ -13,7 +13,7 @@ public class FieldByDetails {
 		this.field = field;
 	}
 	public String getHow() {
-		return how;
+		return how.toUpperCase();
 	}
 	public void setHow(String how) {
 		this.how = how;

@@ -1,0 +1,18 @@
+[
+	{
+		"className" : "file.test.pageobject.LoginFileJsonPageObject",
+		"fieldBy" : 
+			[
+				{
+					"field" : "usernameInput",
+					"how" : "ID",
+					"using" : "username"
+				},
+				{
+					"field" : "passwordInput",
+					"how" : "NAME",
+					"using" : "pwd"
+				}
+			]
+	}
+]

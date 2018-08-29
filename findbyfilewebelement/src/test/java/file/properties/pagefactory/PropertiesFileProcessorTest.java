@@ -98,12 +98,22 @@ public class PropertiesFileProcessorTest {
 		assertEquals("Exception thrown needs to be ParseException", ParseException.class, fnfe.getClass());
 	}
 	
+	@Test
+	public void testInValidHow() throws Exception {
+		Throwable fnfe = null;
+		try{
+			createAndSetupPFP(new InValidHowPage(),"InValidHow");
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
+	}
+	
 	private Field createAndSetupPFP(TestPage page, String fieldName) {
 		try {
 			PropertiesFileProcessor pfp = new PropertiesFileProcessor();
 			Field field = page.getClass().getField(fieldName);
-			pfp.dataSourceDetails(field);
-			pfp.parseDataSource(null);
+			pfp.populateData(field);
 			return field;
 		} catch (Exception e) {
 			throw new RuntimeException(e.getCause());
@@ -112,46 +122,52 @@ public class PropertiesFileProcessorTest {
 	
 	public interface TestPage{}	
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathDefaultDelimiterData.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathDefaultDelimiterData.properties")
 	public class ValidFilePathDefaultDelimiterPage implements TestPage{		
 		@FindByProperties
 		public WebElement validFileDefaultDelim;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathCustomDelimiterData.txt", delimiter="%%")
+	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathCustomDelimiterData.properties", delimiter="%%")
 	public class ValidFilePathCustomDelimiterPage implements TestPage{		
 		@FindByProperties
 		public WebElement validFileCustomDelim;
 	}
 
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathData.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathData.properties")
 	public class InValidFilePathCustomDelimiterPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidFile;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidPageObjectPathData.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidPageObjectPathData.properties")
 	public class InValidPageObjectPathPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidPageObjectPath;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidFieldNameData.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidFieldNameData.properties")
 	public class InValidFieldNamePage implements TestPage{
 		@FindByProperties
 		public WebElement inValidFieldName;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidKey.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidKey.properties")
 	public class InValidKeyPage implements TestPage{
 		@FindByProperties
 		public WebElement InValidKey;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidValue.txt")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidValue.properties")
 	public class InValidValuePage implements TestPage{
 		@FindByProperties
 		public WebElement InValidValue;
+	}
+	
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidHow.properties")
+	public class InValidHowPage implements TestPage{
+		@FindByProperties
+		public WebElement InValidHow;
 	}
 }
 
