@@ -36,18 +36,11 @@ public class PropertiesFileProcessorTest {
 		assertEquals("By stored in cache is not correct.", By.name("validFileCustomDelim"), FieldByCache.getByForField(field));
 	}
 	
-	@Test(expected=RuntimeException.class)
-	public void testInValidFilePath() {		
-		createAndSetupPFP(new InValidFilePathCustomDelimiterPage(),"inValidFile");
-		fail("Runtime Exception with cause FileNotFoundException should be thrown.");
-	}
-	
-	
 	@Test
-	public void testInValidFilePathExactException() throws Exception {
+	public void testInValidFilePath() throws Exception {
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidFilePathCustomDelimiterPage(),"inValidFile");		
+			createAndSetupPFP(new InValidFilePathPage(),"inValidFile");		
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -80,7 +73,7 @@ public class PropertiesFileProcessorTest {
 	public void testInValidKey() throws Exception {
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidKeyPage(),"InValidKey");
+			createAndSetupPFP(new InValidKeyPage(),"inValidKey");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -91,7 +84,7 @@ public class PropertiesFileProcessorTest {
 	public void testInValidValue() throws Exception {
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidValuePage(),"InValidValue");
+			createAndSetupPFP(new InValidValuePage(),"inValidValue");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -102,7 +95,7 @@ public class PropertiesFileProcessorTest {
 	public void testInValidHow() throws Exception {
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidHowPage(),"InValidHow");
+			createAndSetupPFP(new InValidHowPage(),"inValidHow");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -135,7 +128,7 @@ public class PropertiesFileProcessorTest {
 	}
 
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathData.properties")
-	public class InValidFilePathCustomDelimiterPage implements TestPage{
+	public class InValidFilePathPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidFile;
 	}
@@ -155,19 +148,19 @@ public class PropertiesFileProcessorTest {
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidKey.properties")
 	public class InValidKeyPage implements TestPage{
 		@FindByProperties
-		public WebElement InValidKey;
+		public WebElement inValidKey;
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidValue.properties")
 	public class InValidValuePage implements TestPage{
 		@FindByProperties
-		public WebElement InValidValue;
+		public WebElement inValidValue;
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidHow.properties")
 	public class InValidHowPage implements TestPage{
 		@FindByProperties
-		public WebElement InValidHow;
+		public WebElement inValidHow;
 	}
 }
 

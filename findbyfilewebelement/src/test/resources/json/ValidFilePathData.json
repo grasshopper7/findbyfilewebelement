@@ -1,0 +1,13 @@
+[
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorTest$ValidFilePathPage",
+		"fieldBy" : 
+			[
+				{
+					"field" : "validFilePath",
+					"how" : "ID",
+					"using" : "validFilePath"
+				}
+			]
+	}
+]

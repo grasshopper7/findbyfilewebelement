@@ -31,13 +31,11 @@ public class JsonFileProcessor implements FileProcessor {
 		// If data is got from previous parsing then return.
 		if (FieldByCache.doesByExistForField(field))
 			return;
+		
+		Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>() {}.getType();
+		Gson gson = new Gson();
 
-		try {
-			Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>() {
-			}.getType();
-			Gson gson = new Gson();
-			JsonReader reader = new JsonReader(new FileReader(path));
-
+		try(JsonReader reader = new JsonReader(new FileReader(path));) {
 			List<ClassDetails> data = gson.fromJson(reader, FIELD_BY_DETAILS);
 
 			for (ClassDetails detail : data) {
@@ -48,9 +46,8 @@ public class JsonFileProcessor implements FileProcessor {
 							ByCreator.createBy(fbdet.getHow(), fbdet.getUsing()));
 				}
 			}
-			reader.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 

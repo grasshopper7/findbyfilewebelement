@@ -52,8 +52,8 @@ public class PropertiesFileProcessor implements FileProcessor {
 						ByCreator.createBy(valDets[0].toUpperCase(), valDets[1]));
 			}
 
-		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException 
-				| ParseException | IllegalArgumentException e) {
+		} catch (/*IOException | ClassNotFoundException | NoSuchFieldException | SecurityException 
+				| ParseException | IllegalArgument*/Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
