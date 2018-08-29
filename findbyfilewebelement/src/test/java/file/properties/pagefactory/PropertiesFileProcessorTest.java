@@ -145,19 +145,19 @@ public class PropertiesFileProcessorTest {
 		public WebElement inValidFieldName;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidKey.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidKeyData.properties")
 	public class InValidKeyPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidKey;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidValue.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidValueData.properties")
 	public class InValidValuePage implements TestPage{
 		@FindByProperties
 		public WebElement inValidValue;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/InValidHow.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/InValidHowData.properties")
 	public class InValidHowPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidHow;

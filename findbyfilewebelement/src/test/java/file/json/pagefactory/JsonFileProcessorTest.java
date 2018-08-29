@@ -16,7 +16,10 @@ import file.pagefactory.FieldByCache;
 import file.properties.pagefactory.FindByProperties;
 import file.properties.pagefactory.PropertiesFile;
 import file.properties.pagefactory.PropertiesFileProcessor;
+import file.properties.pagefactory.PropertiesFileProcessorTest.InValidFieldNamePage;
 import file.properties.pagefactory.PropertiesFileProcessorTest.InValidFilePathPage;
+import file.properties.pagefactory.PropertiesFileProcessorTest.InValidHowPage;
+import file.properties.pagefactory.PropertiesFileProcessorTest.InValidPageObjectPathPage;
 import file.properties.pagefactory.PropertiesFileProcessorTest.TestPage;
 import file.properties.pagefactory.PropertiesFileProcessorTest.ValidFilePathDefaultDelimiterPage;
 
@@ -46,6 +49,39 @@ public class JsonFileProcessorTest {
 		assertEquals("Exception thrown needs to be FileNotFoundExeption", FileNotFoundException.class, fnfe.getClass());
 	}
 	
+	@Test
+	public void testInValidPageObjectPath() throws Exception {
+		Throwable fnfe = null;
+		try{
+			createAndSetupJFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be ClassNotFoundException", ClassNotFoundException.class, fnfe.getClass());
+	}
+	
+	@Test
+	public void testInValidFieldName() throws Exception {
+		Throwable fnfe = null;
+		try{
+			createAndSetupJFP(new InValidFieldNamePage(),"inValidFieldName");
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be NoSuchFieldException", NoSuchFieldException.class, fnfe.getClass());
+	}
+	
+	@Test
+	public void testInValidHow() throws Exception {
+		Throwable fnfe = null;
+		try{
+			createAndSetupJFP(new InValidHowPage(),"inValidHow");
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
+	}
+	
 	private Field createAndSetupJFP(TestPage page, String fieldName) {
 		try {
 			JsonFileProcessor pfp = new JsonFileProcessor();
@@ -70,6 +106,24 @@ public class JsonFileProcessorTest {
 	public class InValidFilePathPage implements TestPage{
 		@FindByJson
 		public WebElement inValidFilePath;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidPageObjectPathData.json")
+	public class InValidPageObjectPathPage implements TestPage{
+		@FindByJson
+		public WebElement inValidPageObjectPath;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidFieldNameData.json")
+	public class InValidFieldNamePage implements TestPage{
+		@FindByJson
+		public WebElement inValidFieldName;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidHowData.json")
+	public class InValidHowPage implements TestPage{
+		@FindByJson
+		public WebElement inValidHow;
 	}
 }
 

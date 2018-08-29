@@ -1,0 +1,13 @@
+[
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorTest$InValidPageObject",
+		"fieldBy" : 
+			[
+				{
+					"field" : "inValidPageObjectPath",
+					"how" : "ID",
+					"using" : "inValidPageObjectPath"
+				}
+			]
+	}
+]
