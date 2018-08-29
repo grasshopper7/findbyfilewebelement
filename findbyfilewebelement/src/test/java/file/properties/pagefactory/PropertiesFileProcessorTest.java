@@ -103,7 +103,7 @@ public class PropertiesFileProcessorTest {
 			PropertiesFileProcessor pfp = new PropertiesFileProcessor();
 			Field field = page.getClass().getField(fieldName);
 			pfp.dataSourceDetails(field);
-			pfp.parseDataSource();
+			pfp.parseDataSource(null);
 			return field;
 		} catch (Exception e) {
 			throw new RuntimeException(e.getCause());

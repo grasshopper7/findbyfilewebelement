@@ -15,10 +15,10 @@ import file.pagefactory.ByCreator;
 import file.pagefactory.FieldByCache;
 import file.pagefactory.FileProcessor;
 
-public class JsonFileProcessor implements FileProcessor{
+public class JsonFileProcessor implements FileProcessor {
 
 	private String path;
-	
+
 	@Override
 	public void dataSourceDetails(Field field) {
 		JsonFile xlsFile = field.getDeclaringClass().getAnnotation(JsonFile.class);
@@ -26,20 +26,25 @@ public class JsonFileProcessor implements FileProcessor{
 	}
 
 	@Override
-	public void parseDataSource() {
-		
+	public void parseDataSource(Field field) {
+
+		// If data is got from previous parsing then return.
+		if (FieldByCache.doesByExistForField(field))
+			return;
+
 		try {
-			Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>(){}.getType();			
+			Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>() {
+			}.getType();
 			Gson gson = new Gson();
-			JsonReader reader = new JsonReader(new FileReader(path));	
-			
+			JsonReader reader = new JsonReader(new FileReader(path));
+
 			List<ClassDetails> data = gson.fromJson(reader, FIELD_BY_DETAILS);
-			
-			for(ClassDetails detail : data) {				
-				Class<?> pkgCls = Class.forName(detail.getClassName()); 
-				
-				for(FieldByDetails fbdet : detail.getFieldBy()) {
-					FieldByCache.addDetail(pkgCls.getDeclaredField(fbdet.getField()), 
+
+			for (ClassDetails detail : data) {
+				Class<?> pkgCls = Class.forName(detail.getClassName());
+
+				for (FieldByDetails fbdet : detail.getFieldBy()) {
+					FieldByCache.addDetail(pkgCls.getDeclaredField(fbdet.getField()),
 							ByCreator.createBy(fbdet.getHow(), fbdet.getUsing()));
 				}
 			}
@@ -51,6 +56,6 @@ public class JsonFileProcessor implements FileProcessor{
 
 	@Override
 	public Annotations getAnnotation(Field field) {
-		return new JsonAnnotation(field,this);
+		return new JsonAnnotation(field, this);
 	}
 }

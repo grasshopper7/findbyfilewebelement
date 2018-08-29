@@ -8,7 +8,7 @@ public interface FileProcessor {
 
 	void dataSourceDetails(Field field);
 
-	void parseDataSource();
+	void parseDataSource(Field field);
 
 	Annotations getAnnotation(Field field);
 
@@ -16,7 +16,7 @@ public interface FileProcessor {
 
 		dataSourceDetails(field);
 
-		parseDataSource();
+		parseDataSource(field);
 	}
 
 }

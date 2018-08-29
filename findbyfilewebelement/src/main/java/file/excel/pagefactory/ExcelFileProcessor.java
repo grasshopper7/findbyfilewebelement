@@ -14,11 +14,11 @@ import file.pagefactory.ByCreator;
 import file.pagefactory.FieldByCache;
 import file.pagefactory.FileProcessor;
 
-public class ExcelFileProcessor implements FileProcessor{
+public class ExcelFileProcessor implements FileProcessor {
 
 	private String path;
 	private String sheetName;
-	
+
 	@Override
 	public void dataSourceDetails(Field field) {
 		ExcelFile xlsFile = field.getDeclaringClass().getAnnotation(ExcelFile.class);
@@ -27,23 +27,29 @@ public class ExcelFileProcessor implements FileProcessor{
 	}
 
 	@Override
-	public void parseDataSource() {
+	public void parseDataSource(Field field) {
+
+		// If data is got from previous parsing then return.
+		if (FieldByCache.doesByExistForField(field))
+			return;
+
 		try (Workbook workbook = WorkbookFactory.create(new File(path));) {
 			Sheet sheet = workbook.getSheet(sheetName);
 			DataFormatter dataFormatter = new DataFormatter();
-			
-			String pkgClsName="";
-			Class<?> pkgCls = null; 
+
+			String pkgClsName = "";
+			Class<?> pkgCls = null;
 
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				Row row = sheet.getRow(i);
 				pkgClsName = dataFormatter.formatCellValue(row.getCell(0));
-				
-				if(!pkgClsName.isEmpty())
+
+				if (!pkgClsName.isEmpty())
 					pkgCls = Class.forName(pkgClsName);
-				
-				FieldByCache.addDetail(pkgCls.getDeclaredField(dataFormatter.formatCellValue(row.getCell(1))), ByCreator.createBy(
-						dataFormatter.formatCellValue(row.getCell(2)), dataFormatter.formatCellValue(row.getCell(3))));
+
+				FieldByCache.addDetail(pkgCls.getDeclaredField(dataFormatter.formatCellValue(row.getCell(1))),
+						ByCreator.createBy(dataFormatter.formatCellValue(row.getCell(2)),
+								dataFormatter.formatCellValue(row.getCell(3))));
 			}
 			workbook.close();
 		} catch (Exception e) {

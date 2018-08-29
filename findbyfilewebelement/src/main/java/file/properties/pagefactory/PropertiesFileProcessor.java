@@ -26,30 +26,34 @@ public class PropertiesFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public void parseDataSource() {
+	public synchronized void parseDataSource(Field field) {
+
+		// If data is got from previous parsing then return.
+		if (FieldByCache.doesByExistForField(field))
+			return;
 
 		Properties appProps = new Properties();
 
-		try(FileInputStream fis = new FileInputStream(path);) {
+		try (FileInputStream fis = new FileInputStream(path);) {
 			appProps.load(fis);
 			Set<Object> keys = appProps.keySet();
 
 			for (Object key : keys) {
 				String[] keyDets = key.toString().split(delimiter);
 				String[] valDets = appProps.get(key).toString().split(delimiter);
-				
-				if(keyDets.length != 2 || valDets.length != 2)
+
+				if (keyDets.length != 2 || valDets.length != 2)
 					throw new ParseException("Delimiter not present or incorrect in key or value in line - "
-							+ key.toString() + "=" + appProps.get(key).toString(), 0);					
+							+ key.toString() + "=" + appProps.get(key).toString(), 0);
 
 				Class<?> pkgCls = Class.forName(keyDets[0]);
 
 				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), ByCreator.createBy(valDets[0], valDets[1]));
 			}
-			
-		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException | ParseException e ) {
+
+		} catch (IOException | ClassNotFoundException | NoSuchFieldException | SecurityException | ParseException e) {
 			throw new RuntimeException(e);
-		}  
+		}
 	}
 
 	@Override
