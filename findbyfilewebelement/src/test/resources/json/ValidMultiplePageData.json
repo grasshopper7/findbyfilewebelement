@@ -1,0 +1,56 @@
+[
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$FirstMultiplePage",
+		"fieldBy" : 
+			[
+				{
+					"field" : "firstField",
+					"how" : "ID",
+					"using" : "firstField"
+				},
+				{
+					"field" : "secondField",
+					"how" : "Name",
+					"using" : "secondField"
+				}
+			]
+	},
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
+		"fieldBy" : 
+			[
+				{
+					"field" : "firstField",
+					"how" : "ID",
+					"using" : "firstField"
+				},
+				{
+					"field" : "secondField",
+					"how" : "Name",
+					"using" : "secondField"
+				}
+			]
+	},
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$SecondMultiplePage",
+		"fieldBy" : 
+			[
+				{
+					"field" : "thirdField",
+					"how" : "CSS",
+					"using" : "thirdField"
+				}				
+			]
+	},
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
+		"fieldBy" : 
+			[
+				{
+					"field" : "fourthField",
+					"how" : "xpath",
+					"using" : "fourthField"
+				}				
+			]
+	}	
+]

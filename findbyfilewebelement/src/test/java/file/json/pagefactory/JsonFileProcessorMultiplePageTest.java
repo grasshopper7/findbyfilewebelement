@@ -29,8 +29,7 @@ public class JsonFileProcessorMultiplePageTest {
 	}
 	
 	@Test
-	public void testConsecutiveSamePONameFilled() throws Exception {
-		//FirstMultiplePage PO class is mentioned in 2nd and 3rd row.
+	public void testTogetherSamePOFields() throws Exception {
 		FirstMultiplePage fmp = new FirstMultiplePage();
 		Field field1 = fmp.getClass().getField("firstField");
 		Field field2 = fmp.getClass().getField("secondField");
@@ -40,8 +39,7 @@ public class JsonFileProcessorMultiplePageTest {
 	}
 	
 	@Test
-	public void testSamePONameSplitAmongRows() throws Exception {
-		//ThirdMultiplePage PO class is mentioned in 4th, 5th and 7th row.
+	public void testSplitSamePOFields() throws Exception {
 		ThirdMultiplePage tmp = new ThirdMultiplePage();
 		Field field1 = tmp.getClass().getField("firstField");
 		Field field2 = tmp.getClass().getField("secondField");
@@ -53,7 +51,7 @@ public class JsonFileProcessorMultiplePageTest {
 	}
 	
 	
-	@JsonFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
+	@JsonFile(filePath = "src/test/resources/json/ValidMultiplePageData.json")
 	public static class FirstMultiplePage implements TestPage{		
 		@FindByJson
 		public WebElement firstField;
@@ -61,13 +59,13 @@ public class JsonFileProcessorMultiplePageTest {
 		public List<WebElement> secondField;		
 	}
 	
-	@JsonFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
+	@JsonFile(filePath = "src/test/resources/json/ValidMultiplePageData.json")
 	public static class SecondMultiplePage implements TestPage{		
 		@FindByJson
 		public WebElement thirdField;		
 	}
 	
-	@JsonFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
+	@JsonFile(filePath = "src/test/resources/json/ValidMultiplePageData.json")
 	public static class ThirdMultiplePage implements TestPage{		
 		@FindByJson
 		public WebElement firstField;
