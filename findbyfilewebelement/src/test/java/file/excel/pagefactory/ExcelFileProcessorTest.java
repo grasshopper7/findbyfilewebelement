@@ -1,35 +1,22 @@
 package file.excel.pagefactory;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.util.List;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.google.gson.stream.MalformedJsonException;
-
 import file.pagefactory.FieldByCache;
-import file.properties.pagefactory.FindByProperties;
-import file.properties.pagefactory.PropertiesFile;
-import file.properties.pagefactory.PropertiesFileProcessor;
-import file.properties.pagefactory.PropertiesFileProcessorTest.InValidFieldNamePage;
-import file.properties.pagefactory.PropertiesFileProcessorTest.InValidFilePathPage;
-import file.properties.pagefactory.PropertiesFileProcessorTest.InValidHowPage;
-import file.properties.pagefactory.PropertiesFileProcessorTest.InValidPageObjectPathPage;
 import file.properties.pagefactory.PropertiesFileProcessorTest.TestPage;
-import file.properties.pagefactory.PropertiesFileProcessorTest.ValidFilePathDefaultDelimiterPage;
 
 public class ExcelFileProcessorTest {
 	
 	@Test
-	public void testJsonAnnotation() {
+	public void testExcelAnnotation() {
 		Field field = mock(Field.class);
 		ExcelFileProcessor pfp = new ExcelFileProcessor();
 		assertEquals("Should return ExcelAnnotation", ExcelAnnotation.class, pfp.getAnnotation(field).getClass());
@@ -39,6 +26,12 @@ public class ExcelFileProcessorTest {
 	public void testValidFilePath() {
 		Field field = createAndSetupEFP(new ValidFilePathPage(),"validFilePath");				
 		assertEquals("By stored in cache is not correct.", By.id("validFilePath"), FieldByCache.getByForField(field));
+	}
+	
+	@Test
+	public void testValidFilePathCustomSheet() {
+		Field field = createAndSetupEFP(new ValidFilePathCustomSheetPage(),"validFilePathCustomSheet");				
+		assertEquals("By stored in cache is not correct.", By.name("validFilePathCustomSheet"), FieldByCache.getByForField(field));
 	}
 	
 	@Test
@@ -140,6 +133,12 @@ public class ExcelFileProcessorTest {
 	public class ValidFilePathPage implements TestPage{		
 		@FindByExcel
 		public WebElement validFilePath;
+	}
+	
+	@ExcelFile(filePath = "src/test/resources/excel/ValidFilePathData.xlsx", sheetName="FieldDetails")
+	public class ValidFilePathCustomSheetPage implements TestPage{		
+		@FindByExcel
+		public WebElement validFilePathCustomSheet;
 	}
 	
 	@ExcelFile(filePath = "src/test/resources/excel/ValidFileInvalidHeadersData.xlsx")

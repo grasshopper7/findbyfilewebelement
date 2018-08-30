@@ -14,7 +14,7 @@ import file.TestPage;
 import file.pagefactory.FieldByCache;
 
 
-public class ExcelFileMultiplePageTest {
+public class ExcelFileProcessorMultiplePageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
