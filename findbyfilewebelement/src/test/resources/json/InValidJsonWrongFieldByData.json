@@ -1,0 +1,13 @@
+[
+	{
+		"className" : "file.json.pagefactory.JsonFileProcessorTest$InValidJsonWrongFieldByPage",
+		"fiel" : 
+			[
+				{
+					"field" : "inValidFileStructure",
+					"how" : "ID",
+					"using" : "inValidFileStructure"
+				}
+			]
+	}
+]

@@ -37,7 +37,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidFilePath() throws Exception {
+	public void testInValidFilePath() {
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidFilePathPage(),"inValidFile");		
@@ -48,7 +48,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidPageObjectPath() throws Exception {
+	public void testInValidPageObjectPath() {
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
@@ -59,7 +59,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidFieldName() throws Exception {
+	public void testInValidFieldName() {
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidFieldNamePage(),"inValidFieldName");
@@ -70,7 +70,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidKey() throws Exception {
+	public void testInValidKey(){
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidKeyPage(),"inValidKey");
@@ -81,7 +81,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidValue() throws Exception {
+	public void testInValidValue()  {
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidValuePage(),"inValidValue");
@@ -92,7 +92,7 @@ public class PropertiesFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidHow() throws Exception {
+	public void testInValidHow() {
 		Throwable fnfe = null;
 		try{
 			createAndSetupPFP(new InValidHowPage(),"inValidHow");

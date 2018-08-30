@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.google.gson.stream.MalformedJsonException;
+
 import file.pagefactory.FieldByCache;
 import file.properties.pagefactory.FindByProperties;
 import file.properties.pagefactory.PropertiesFile;
@@ -50,7 +52,7 @@ public class JsonFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidPageObjectPath() throws Exception {
+	public void testInValidPageObjectPath() {
 		Throwable fnfe = null;
 		try{
 			createAndSetupJFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
@@ -61,7 +63,7 @@ public class JsonFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidFieldName() throws Exception {
+	public void testInValidFieldName()  {
 		Throwable fnfe = null;
 		try{
 			createAndSetupJFP(new InValidFieldNamePage(),"inValidFieldName");
@@ -72,7 +74,7 @@ public class JsonFileProcessorTest {
 	}
 	
 	@Test
-	public void testInValidHow() throws Exception {
+	public void testInValidHow()  {
 		Throwable fnfe = null;
 		try{
 			createAndSetupJFP(new InValidHowPage(),"inValidHow");
@@ -80,6 +82,43 @@ public class JsonFileProcessorTest {
 			fnfe = e.getCause();
 		}
 		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
+	}
+	
+	@Test
+	public void testInValidJsonWrongClassName() {
+		jsonStructureCheck(new InValidJsonWrongClassNamePage(), "className");
+	}
+	
+	@Test
+	public void testInValidJsonWrongFieldBy() {
+		jsonStructureCheck(new InValidJsonWrongFieldByPage(), "fieldBy");
+	}
+	
+	@Test
+	public void testInValidJsonWrongFieldByField() {
+		jsonStructureCheck(new InValidJsonWrongFieldByFieldPage(), "field");
+	}
+	
+	@Test
+	public void testInValidJsonWrongFieldByHow() {
+		jsonStructureCheck(new InValidJsonWrongFieldByHowPage(), "how");
+	}
+	
+	@Test
+	public void testInValidJsonWrongFieldByUsing() {
+		jsonStructureCheck(new InValidJsonWrongFieldByUsingPage(), "using");
+	}
+	
+	private void jsonStructureCheck(TestPage page, String attribute) {
+		Throwable fnfe = null;
+		try{
+			createAndSetupJFP(page,"inValidFileStructure");
+		} catch (RuntimeException e) {
+			fnfe = e.getCause();
+		}
+		assertEquals("Exception thrown needs to be MalformedJsonException", MalformedJsonException.class, fnfe.getClass());
+		assertEquals("Message for missing " + attribute + " attribute is not correct.", 
+				attribute + " attribute is missing or misspelled.", fnfe.getMessage());
 	}
 	
 	private Field createAndSetupJFP(TestPage page, String fieldName) {
@@ -124,6 +163,36 @@ public class JsonFileProcessorTest {
 	public class InValidHowPage implements TestPage{
 		@FindByJson
 		public WebElement inValidHow;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidJsonWrongClassNameData.json")
+	public class InValidJsonWrongClassNamePage implements TestPage{
+		@FindByJson
+		public WebElement inValidFileStructure;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidJsonWrongFieldByData.json")
+	public class InValidJsonWrongFieldByPage implements TestPage{
+		@FindByJson
+		public WebElement inValidFileStructure;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidJsonWrongFieldByFieldData.json")
+	public class InValidJsonWrongFieldByFieldPage implements TestPage{
+		@FindByJson
+		public WebElement inValidFileStructure;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidJsonWrongFieldByHowData.json")
+	public class InValidJsonWrongFieldByHowPage implements TestPage{
+		@FindByJson
+		public WebElement inValidFileStructure;
+	}
+	
+	@JsonFile(filePath = "src/test/resources/json/InValidJsonWrongFieldByUsingData.json")
+	public class InValidJsonWrongFieldByUsingPage implements TestPage{
+		@FindByJson
+		public WebElement inValidFileStructure;
 	}
 }
 

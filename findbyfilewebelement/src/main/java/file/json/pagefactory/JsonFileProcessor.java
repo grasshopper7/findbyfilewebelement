@@ -39,9 +39,11 @@ public class JsonFileProcessor implements FileProcessor {
 			List<ClassDetails> data = gson.fromJson(reader, FIELD_BY_DETAILS);
 
 			for (ClassDetails detail : data) {
+				ClassDetails.checkValues(detail);
 				Class<?> pkgCls = Class.forName(detail.getClassName());
 
 				for (FieldByDetails fbdet : detail.getFieldBy()) {
+					FieldByDetails.checkValues(fbdet);
 					FieldByCache.addDetail(pkgCls.getDeclaredField(fbdet.getField()),
 							ByCreator.createBy(fbdet.getHow(), fbdet.getUsing()));
 				}

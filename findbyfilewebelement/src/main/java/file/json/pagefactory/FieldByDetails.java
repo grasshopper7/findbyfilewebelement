@@ -1,5 +1,7 @@
 package file.json.pagefactory;
 
+import com.google.gson.stream.MalformedJsonException;
+
 public class FieldByDetails {
 
 	private String field;
@@ -27,6 +29,15 @@ public class FieldByDetails {
 	@Override
 	public String toString() {
 		return "FieldByDetails [field=" + field + ", how=" + how + ", using=" + using + "]";
+	}
+	
+	public static void checkValues(FieldByDetails detail) throws MalformedJsonException {
+		if(detail.field == null || detail.field.length() == 0)
+			throw new MalformedJsonException("field attribute is missing or misspelled.");
+		if(detail.how == null || detail.how.length() == 0)
+			throw new MalformedJsonException("how attribute is missing or misspelled.");
+		if(detail.using == null || detail.using.length() == 0)
+			throw new MalformedJsonException("using attribute is missing or misspelled.");
 	}
 	
 	
