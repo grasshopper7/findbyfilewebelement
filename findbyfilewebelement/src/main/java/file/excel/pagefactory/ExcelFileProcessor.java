@@ -30,7 +30,6 @@ public class ExcelFileProcessor implements FileProcessor {
 
 	@Override
 	public void parseDataSource(Field field) {
-
 		// If data is got from previous parsing then return.
 		if (FieldByCache.doesByExistForField(field))
 			return;

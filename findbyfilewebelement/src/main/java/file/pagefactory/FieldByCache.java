@@ -25,4 +25,14 @@ public class FieldByCache {
 		fieldByStore.clear();
 	}
 	
+	public static int size() {
+		return fieldByStore.size();
+	}
+	
+	public static void printCache() {
+		fieldByStore.forEach((key,value) -> {
+			System.out.println(key.toString() + " -- " +value.toString());
+		});
+	}
+	
 }

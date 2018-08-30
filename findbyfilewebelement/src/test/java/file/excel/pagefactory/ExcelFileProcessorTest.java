@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
+import java.util.List;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -133,10 +134,7 @@ public class ExcelFileProcessorTest {
 			throw new RuntimeException(e.getCause());
 		}		
 	}
-	
-	
-	public interface TestPage{}	
-	
+		
 	
 	@ExcelFile(filePath = "src/test/resources/excel/ValidFilePathData.xlsx")
 	public class ValidFilePathPage implements TestPage{		
@@ -191,7 +189,6 @@ public class ExcelFileProcessorTest {
 		@FindByExcel
 		public WebElement missingUsing;
 	}
-	
 }
 
 
