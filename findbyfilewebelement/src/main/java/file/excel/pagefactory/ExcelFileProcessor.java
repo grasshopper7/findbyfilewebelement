@@ -10,6 +10,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.support.pagefactory.Annotations;
 
+import com.google.gson.stream.MalformedJsonException;
+
 import file.pagefactory.ByCreator;
 import file.pagefactory.FieldByCache;
 import file.pagefactory.FileProcessor;
@@ -39,6 +41,9 @@ public class ExcelFileProcessor implements FileProcessor {
 
 			String pkgClsName = "";
 			Class<?> pkgCls = null;
+			String fld = "";
+			String how = "";
+			String using = "";
 
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				Row row = sheet.getRow(i);
@@ -46,15 +51,28 @@ public class ExcelFileProcessor implements FileProcessor {
 
 				if (!pkgClsName.isEmpty())
 					pkgCls = Class.forName(pkgClsName);
+				
+				fld = dataFormatter.formatCellValue(row.getCell(1));
+				how = dataFormatter.formatCellValue(row.getCell(2));
+				using = dataFormatter.formatCellValue(row.getCell(3));				
+				checkValues(fld, how, using);
 
-				FieldByCache.addDetail(pkgCls.getDeclaredField(dataFormatter.formatCellValue(row.getCell(1))),
-						ByCreator.createBy(dataFormatter.formatCellValue(row.getCell(2)).toUpperCase(),
-								dataFormatter.formatCellValue(row.getCell(3))));
+				FieldByCache.addDetail(pkgCls.getDeclaredField(fld),
+						ByCreator.createBy(how.toUpperCase(), using));
 			}
 			workbook.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
+	}
+
+	private void checkValues(String fld, String how, String using) {
+		if(fld == null || fld.length() == 0)
+			throw new IllegalArgumentException("Field Name attribute data is missing.");
+		else if(how == null || how.length() == 0)
+			throw new IllegalArgumentException("How attribute data is missing.");
+		else if(using == null || using.length() == 0)
+			throw new IllegalArgumentException("Using attribute data is missing.");
 	}
 
 	@Override

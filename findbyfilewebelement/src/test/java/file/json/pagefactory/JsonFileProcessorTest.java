@@ -123,9 +123,9 @@ public class JsonFileProcessorTest {
 	
 	private Field createAndSetupJFP(TestPage page, String fieldName) {
 		try {
-			JsonFileProcessor pfp = new JsonFileProcessor();
+			JsonFileProcessor jfp = new JsonFileProcessor();
 			Field field = page.getClass().getField(fieldName);
-			pfp.populateData(field);
+			jfp.populateData(field);
 			return field;
 		} catch (Exception e) {
 			throw new RuntimeException(e.getCause());
