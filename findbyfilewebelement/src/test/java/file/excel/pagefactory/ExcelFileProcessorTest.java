@@ -135,7 +135,7 @@ public class ExcelFileProcessorTest {
 		public WebElement validFilePath;
 	}
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ValidFilePathData.xlsx", sheetName="FieldDetails")
+	@ExcelFile(filePath = "src/test/resources/excel/ValidFilePathCustomSheetData.xlsx", sheetName="FieldDetails")
 	public class ValidFilePathCustomSheetPage implements TestPage{		
 		@FindByExcel
 		public WebElement validFilePathCustomSheet;
