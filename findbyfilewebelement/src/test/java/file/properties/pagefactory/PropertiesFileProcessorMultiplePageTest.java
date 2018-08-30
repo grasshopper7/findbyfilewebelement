@@ -1,4 +1,4 @@
-package file.excel.pagefactory;
+package file.properties.pagefactory;
 
 import static org.junit.Assert.*;
 
@@ -13,11 +13,11 @@ import org.openqa.selenium.WebElement;
 import file.TestPage;
 import file.pagefactory.FieldByCache;
 
-public class ExcelFileProcessorMultiplePageTest {
+public class PropertiesFileProcessorMultiplePageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ExcelFileProcessor efp = new ExcelFileProcessor();
+		PropertiesFileProcessor efp = new PropertiesFileProcessor();
 		FirstMultiplePage fmp = new FirstMultiplePage();
 		Field field = fmp.getClass().getField("secondField");
 		efp.populateData(field);		
@@ -40,17 +40,6 @@ public class ExcelFileProcessorMultiplePageTest {
 	}
 	
 	@Test
-	public void testSamePONameFilledAndBlank() throws Exception {
-		//ThirdMultiplePage PO class is mentioned in 4th and 5th row.
-		ThirdMultiplePage tmp = new ThirdMultiplePage();
-		Field field1 = tmp.getClass().getField("firstField");
-		Field field2 = tmp.getClass().getField("secondField");
-		
-		assertTrue("firstField of ThirdMultiplePage PO is not present in cache.", FieldByCache.doesByExistForField(field1));
-		assertTrue("secondField of ThirdMultiplePage PO is not present in cache.", FieldByCache.doesByExistForField(field2));
-	}
-	
-	@Test
 	public void testSamePONameSplitAmongRows() throws Exception {
 		//ThirdMultiplePage PO class is mentioned in 4th, 5th and 7th row.
 		ThirdMultiplePage tmp = new ThirdMultiplePage();
@@ -64,27 +53,27 @@ public class ExcelFileProcessorMultiplePageTest {
 	}
 	
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ValidMultiplePageData.xlsx")
+	@PropertiesFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
 	public static class FirstMultiplePage implements TestPage{		
-		@FindByExcel
+		@FindByProperties
 		public WebElement firstField;
-		@FindByExcel
+		@FindByProperties
 		public List<WebElement> secondField;		
 	}
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ValidMultiplePageData.xlsx")
+	@PropertiesFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
 	public static class SecondMultiplePage implements TestPage{		
-		@FindByExcel
+		@FindByProperties
 		public WebElement thirdField;		
 	}
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ValidMultiplePageData.xlsx")
+	@PropertiesFile(filePath = "src/test/resources/properties/ValidMultiplePageData.properties")
 	public static class ThirdMultiplePage implements TestPage{		
-		@FindByExcel
+		@FindByProperties
 		public WebElement firstField;
-		@FindByExcel
+		@FindByProperties
 		public List<WebElement> secondField;
-		@FindByExcel
+		@FindByProperties
 		public WebElement fourthField;
 	}
 
