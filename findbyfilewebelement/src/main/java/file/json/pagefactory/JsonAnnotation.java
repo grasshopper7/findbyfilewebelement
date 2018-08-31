@@ -21,6 +21,7 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 		FindByJson findJson = getField().getAnnotation(FindByJson.class);
 		JsonFile jsonFile = getField().getDeclaringClass().getAnnotation(JsonFile.class);
 
-		super.assertValidAnnotations(findJson != null, jsonFile != null, this.getClass().getSimpleName());
+		super.assertValidAnnotations(findJson != null, jsonFile != null, 
+				findJson.getClass().getSimpleName(), jsonFile.getClass().getSimpleName());
 	}
 }

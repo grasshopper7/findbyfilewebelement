@@ -22,6 +22,7 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 		FindByExcel findExcel = getField().getAnnotation(FindByExcel.class);
 		ExcelFile excelFile = getField().getDeclaringClass().getAnnotation(ExcelFile.class);
 
-		super.assertValidAnnotations(findExcel != null, excelFile != null, this.getClass().getSimpleName());
+		super.assertValidAnnotations(findExcel != null, excelFile != null,  
+				findExcel.getClass().getSimpleName(), excelFile.getClass().getSimpleName());
 	}
 }

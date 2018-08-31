@@ -28,7 +28,7 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	}
 
 	protected void assertValidAnnotations(boolean fieldAnnotationExists, boolean fileAnnotationExists,
-			String fieldAnnotationName) {
+			String fieldAnnotationName, String fileAnnotationName) {
 		FindBys findBys = getField().getAnnotation(FindBys.class);
 		FindAll findAll = getField().getAnnotation(FindAll.class);
 		FindBy findBy = getField().getAnnotation(FindBy.class);
@@ -42,7 +42,7 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		if (fieldAnnotationExists && !fileAnnotationExists) {
 			throw new IllegalArgumentException(
 					"If you use a '@" + fieldAnnotationName + "' annotation, "
-							+ "you must also use '@PropertiesFile' annotation");
+							+ "you must also use '@" + fileAnnotationName + "' annotation");
 		}
 		super.assertValidAnnotations();
 	}
