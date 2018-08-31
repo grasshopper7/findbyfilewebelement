@@ -8,6 +8,9 @@ import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.FileProcessor;
 
 public class PropertiesAnnotation extends AbstractFileAnnotations {
+	
+	private String fieldAnnotationName = FindByProperties.class.getSimpleName();
+	private String fileAnnotationName = PropertiesFile.class.getSimpleName();
 
 	public PropertiesAnnotation(Field field, FileProcessor fileProcessor) {
 		super(field, fileProcessor);
@@ -22,7 +25,6 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 		FindByProperties findProps = getField().getAnnotation(FindByProperties.class);
 		PropertiesFile propsFile = getField().getDeclaringClass().getAnnotation(PropertiesFile.class);
 
-		super.assertValidAnnotations(findProps != null, propsFile != null, 
-				findProps.getClass().getSimpleName(), propsFile.getClass().getSimpleName());
+		super.assertValidAnnotations(findProps != null, propsFile != null, fieldAnnotationName, fileAnnotationName);
 	}
 }
