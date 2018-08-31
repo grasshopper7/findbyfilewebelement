@@ -26,7 +26,7 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 		ExcelFile excelFile = getField().getDeclaringClass().getAnnotation(ExcelFile.class);
 		
 		if(excelFile == null)
-			throw new IllegalArgumentException("@" + fileAnnotationName + "annotation is missing on class level.");
+			throw new IllegalArgumentException("@" + fileAnnotationName + " annotation is missing on class level.");
 
 		super.assertValidAnnotations(findExcel != null, excelFile != null, fieldAnnotationName, fileAnnotationName);
 	}

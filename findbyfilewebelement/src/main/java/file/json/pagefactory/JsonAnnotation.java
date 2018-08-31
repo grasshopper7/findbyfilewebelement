@@ -25,7 +25,7 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 		JsonFile jsonFile = getField().getDeclaringClass().getAnnotation(JsonFile.class);
 
 		if(jsonFile == null)
-			throw new IllegalArgumentException("@" + fileAnnotationName + "annotation is missing on class level.");
+			throw new IllegalArgumentException("@" + fileAnnotationName + " annotation is missing on class level.");
 		
 		super.assertValidAnnotations(findJson != null, jsonFile != null, fieldAnnotationName, fileAnnotationName);
 	}

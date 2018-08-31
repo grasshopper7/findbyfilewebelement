@@ -26,7 +26,7 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 		PropertiesFile propsFile = getField().getDeclaringClass().getAnnotation(PropertiesFile.class);
 		
 		if(propsFile == null)
-			throw new IllegalArgumentException("@"+fileAnnotationName+ "annotation is missing on class level.");
+			throw new IllegalArgumentException("@"+fileAnnotationName+ " annotation is missing on class level.");
 
 		super.assertValidAnnotations(findProps != null, propsFile != null, fieldAnnotationName, fileAnnotationName);
 	}
