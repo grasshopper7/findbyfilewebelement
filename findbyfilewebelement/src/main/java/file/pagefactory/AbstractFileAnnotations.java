@@ -16,6 +16,10 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		super(field);
 		this.fileProcessor = fileProcessor;
 	}
+	
+	public abstract String getFieldAnnotationName();
+	
+	public abstract String getFileAnnotationName();
 
 	public By buildBy(boolean fieldAnnotationExists) {
 		assertValidAnnotations();
@@ -27,19 +31,18 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		return super.buildBy();
 	}
 
-	protected void assertValidAnnotations(boolean fieldAnnotationExists, boolean fileAnnotationExists,
-			String fieldAnnotationName, String fileAnnotationName) {
+	protected void assertValidAnnotations(boolean fieldAnnotationExists, boolean fileAnnotationExists) {
 		FindBys findBys = getField().getAnnotation(FindBys.class);
 		FindAll findAll = getField().getAnnotation(FindAll.class);
 		FindBy findBy = getField().getAnnotation(FindBy.class);
 
 		if (fieldAnnotationExists && !fileAnnotationExists) {
-			throw new IllegalArgumentException("'@" + fieldAnnotationName + "' annotation must be use together with a "
-					+ "'@" + fileAnnotationName + "' annotation");
+			throw new IllegalArgumentException("'@" + getFieldAnnotationName() + "' annotation must be use together with a "
+					+ "'@" + getFileAnnotationName() + "' annotation");
 		}
 		
 		if (fieldAnnotationExists && (findBys != null || findAll != null || findBy != null)) {
-			throw new IllegalArgumentException("If you use a '@" + fieldAnnotationName + "' annotation, "
+			throw new IllegalArgumentException("If you use a '@" + getFieldAnnotationName() + "' annotation, "
 					+ "you must not also use a '@FindBy' or '@FindBys' or '@FindAll' annotation");
 		}
 

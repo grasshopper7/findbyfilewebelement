@@ -9,9 +9,6 @@ import file.pagefactory.FileProcessor;
 
 public class ExcelAnnotation extends AbstractFileAnnotations {
 	
-	private String fieldAnnotationName = FindByExcel.class.getSimpleName();
-	private String fileAnnotationName = ExcelFile.class.getSimpleName();
-	
 	public ExcelAnnotation(Field field, FileProcessor fileProcessor) {
 		super(field, fileProcessor);
 	}
@@ -26,8 +23,18 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 		ExcelFile excelFile = getField().getDeclaringClass().getAnnotation(ExcelFile.class);
 		
 		if(excelFile == null)
-			throw new IllegalArgumentException("@" + fileAnnotationName + " annotation is missing on class level.");
+			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
 
-		super.assertValidAnnotations(findExcel != null, excelFile != null, fieldAnnotationName, fileAnnotationName);
+		super.assertValidAnnotations(findExcel != null, excelFile != null);
+	}
+
+	@Override
+	public String getFieldAnnotationName() {
+		return FindByExcel.class.getSimpleName();
+	}
+
+	@Override
+	public String getFileAnnotationName() {
+		return ExcelFile.class.getSimpleName();
 	}
 }

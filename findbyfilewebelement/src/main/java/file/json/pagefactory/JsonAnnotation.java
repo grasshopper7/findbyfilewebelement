@@ -9,9 +9,6 @@ import file.pagefactory.FileProcessor;
 
 public class JsonAnnotation extends AbstractFileAnnotations {
 
-	private String fieldAnnotationName = FindByJson.class.getSimpleName();
-	private String fileAnnotationName = JsonFile.class.getSimpleName();
-
 	public JsonAnnotation(Field field, FileProcessor fileProcessor) {
 		super(field, fileProcessor);
 	}
@@ -25,8 +22,18 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 		JsonFile jsonFile = getField().getDeclaringClass().getAnnotation(JsonFile.class);
 
 		if(jsonFile == null)
-			throw new IllegalArgumentException("@" + fileAnnotationName + " annotation is missing on class level.");
+			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
 		
-		super.assertValidAnnotations(findJson != null, jsonFile != null, fieldAnnotationName, fileAnnotationName);
+		super.assertValidAnnotations(findJson != null, jsonFile != null);
+	}
+
+	@Override
+	public String getFieldAnnotationName() {		
+		return FindByJson.class.getSimpleName();
+	}
+
+	@Override
+	public String getFileAnnotationName() {
+		return JsonFile.class.getSimpleName();
 	}
 }

@@ -8,9 +8,6 @@ import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.FileProcessor;
 
 public class PropertiesAnnotation extends AbstractFileAnnotations {
-	
-	private String fieldAnnotationName = FindByProperties.class.getSimpleName();
-	private String fileAnnotationName = PropertiesFile.class.getSimpleName();
 
 	public PropertiesAnnotation(Field field, FileProcessor fileProcessor) {
 		super(field, fileProcessor);
@@ -26,8 +23,18 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 		PropertiesFile propsFile = getField().getDeclaringClass().getAnnotation(PropertiesFile.class);
 		
 		if(propsFile == null)
-			throw new IllegalArgumentException("@"+fileAnnotationName+ " annotation is missing on class level.");
+			throw new IllegalArgumentException("@"+getFileAnnotationName()+ " annotation is missing on class level.");
 
-		super.assertValidAnnotations(findProps != null, propsFile != null, fieldAnnotationName, fileAnnotationName);
+		super.assertValidAnnotations(findProps != null, propsFile != null);
+	}
+
+	@Override
+	public String getFieldAnnotationName() {
+		return FindByProperties.class.getSimpleName();
+	}
+
+	@Override
+	public String getFileAnnotationName() {
+		return PropertiesFile.class.getSimpleName();
 	}
 }
