@@ -1,10 +1,7 @@
 package file.test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Set;
+import java.time.Instant;
 
 //import org.apache.poi.EncryptedDocumentException;
 //import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -24,7 +21,8 @@ public class FindTest {
 	@FindByExcel
 	public String str3;
 
-	public static void main(String[] args) throws /*EncryptedDocumentException, InvalidFormatException,*/ IOException, ClassNotFoundException, NoSuchFieldException, SecurityException {
+	public static void main(String[] args) throws /* EncryptedDocumentException, InvalidFormatException, */ IOException,
+			ClassNotFoundException, NoSuchFieldException, SecurityException, InterruptedException {
 
 		/*XlsFile xlsFile = FindTest.class.getAnnotation(XlsFile.class);
 		String path = xlsFile.filePath();
@@ -72,7 +70,7 @@ public class FindTest {
 		List<ClassDetails> data = gson.fromJson(reader, REVIEW_TYPE);
 		System.out.println(data);*/
 		
-		Properties appProps = new Properties();
+		/*Properties appProps = new Properties();
 		appProps.load(new FileInputStream("src/test/resources/sample-properties-file.txt"));
 		
 		System.out.println(appProps);
@@ -81,14 +79,20 @@ public class FindTest {
 		
 		for(Object key : keys) {
 			System.out.println(key + " -- " + appProps.get(key));
-			/*String s = key.toString();
+			String s = key.toString();
 			System.out.println(s.substring(0, s.indexOf("")));
-			System.out.println(s.substring(s.indexOf("$$") + "$$".length()));*/
+			System.out.println(s.substring(s.indexOf("$$") + "$$".length()));
 			
 		}
 		
 		String[] splitted = "peter##james##thomas".split("##");
-		System.out.println(Arrays.toString(splitted));
+		System.out.println(Arrays.toString(splitted));*/
+		
+		Instant lastUpdated = Instant.now();
+		Thread.sleep(3596);
+		Instant two = Instant.ofEpochSecond(lastUpdated.getEpochSecond(), lastUpdated.getNano());
+		
+		System.out.println(two.equals(lastUpdated));
 	}
 
 }

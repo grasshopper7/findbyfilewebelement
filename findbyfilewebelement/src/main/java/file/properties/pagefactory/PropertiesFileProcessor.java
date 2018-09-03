@@ -1,7 +1,6 @@
 package file.properties.pagefactory;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.Properties;
