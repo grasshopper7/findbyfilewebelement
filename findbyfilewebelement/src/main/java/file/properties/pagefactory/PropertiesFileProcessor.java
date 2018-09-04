@@ -32,7 +32,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 			return;
 
 		Properties appProps = new Properties();
-		System.out.println(Thread.currentThread().getId() + "---" + "Processing");
+		System.out.println(Thread.currentThread().getId() + "---" + "Processing Properties");
 		try (FileInputStream fis = new FileInputStream(path);) {
 			appProps.load(fis);
 			Set<Object> keys = appProps.keySet();

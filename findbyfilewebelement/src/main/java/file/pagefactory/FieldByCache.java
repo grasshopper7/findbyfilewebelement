@@ -21,9 +21,9 @@ public class FieldByCache {
 	}
 	
 	public static void addDetail(Field field, By by) {
-		System.out.println(Thread.currentThread().getId() + "--Updating--");
 		fieldByStore.put(field, by);
 		lastUpdated = Instant.now();
+		System.out.println(Thread.currentThread().getId() + "--Updating--");
 		System.out.println("Adding");
 	}
 	

@@ -6,6 +6,10 @@ import java.time.Instant;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
+import file.excel.pagefactory.ExcelAnnotation;
+import file.excel.pagefactory.ExcelFile;
+import file.excel.pagefactory.ExcelFileProcessor;
+import file.excel.pagefactory.FindByExcel;
 import file.properties.pagefactory.FindByProperties;
 import file.properties.pagefactory.PropertiesAnnotation;
 import file.properties.pagefactory.PropertiesFile;
@@ -16,31 +20,56 @@ public class MultipleThreadCacheTest {
 	@Test
 	public void testMultipleAccess() throws InterruptedException {
 		
-		FileAccessRun far = new FileAccessRun();
+		FileAccessPropertiesRun far = new FileAccessPropertiesRun();
 		Thread t1 = (new Thread(far));
-		t1.start();
+		t1.start();		
 		
-		//t1.join(2000);
-		
-		
-		FileAccessRunSec far1 = new FileAccessRunSec();
+		FileAccessPropertiesRunSec far1 = new FileAccessPropertiesRunSec();
 		Thread t2 =  (new Thread(far1));
 		t2.start();
 		
+		FileAccessExcelRun far2 = new FileAccessExcelRun();
+		Thread t3 = (new Thread(far2));
+		t3.start();
 		
-		//t1.join(1000);
-		//t2.join(1000);
+		FileAccessExcelRunSec far3 = new FileAccessExcelRunSec();
+		Thread t4 = (new Thread(far3));
+		t4.start();
+			
+		t1.join(3000);
+		t2.join(3000);
+		t3.join(5000);
+		t4.join(5000);
 		
-		Thread.sleep(5000);
-				
+		//Thread.sleep(10000);
+		
+		System.out.println(FieldByCache.size());
 	}
 	
-	public class FileAccessRun implements Runnable {
+	public class FileAccessPropertiesRun implements Runnable {
 
 		@Override
 		public void run() {
 			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObject po = new PageObject();
+			PageObjectProperties po = new PageObjectProperties();
+			try {
+				Field elem1 = po.getClass().getDeclaredField("element1");
+				PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+				pa.buildBy();
+				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
+				FieldByCache.printCache();
+			} catch (NoSuchFieldException | SecurityException e) {
+				throw new RuntimeException(e);
+			}			
+		}
+	}
+	
+	public class FileAccessPropertiesRunSec implements Runnable {
+
+		@Override
+		public void run() {
+			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
+			PageObjectProperties po = new PageObjectProperties();
 			try {
 				Field elem1 = po.getClass().getDeclaredField("element2");
 				PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
@@ -53,15 +82,33 @@ public class MultipleThreadCacheTest {
 		}
 	}
 	
-	public class FileAccessRunSec implements Runnable {
+	public class FileAccessExcelRun implements Runnable {
 
 		@Override
 		public void run() {
 			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObject po = new PageObject();
+			PageObjectExcel po = new PageObjectExcel();
+			try {
+				Field elem1 = po.getClass().getDeclaredField("element1");
+				ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
+				pa.buildBy();
+				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
+				FieldByCache.printCache();
+			} catch (NoSuchFieldException | SecurityException e) {
+				throw new RuntimeException(e);
+			}			
+		}
+	}
+	
+	public class FileAccessExcelRunSec implements Runnable {
+
+		@Override
+		public void run() {
+			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
+			PageObjectExcel po = new PageObjectExcel();
 			try {
 				Field elem1 = po.getClass().getDeclaredField("element2");
-				PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+				ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
 				pa.buildBy();
 				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
 				FieldByCache.printCache();
@@ -72,10 +119,26 @@ public class MultipleThreadCacheTest {
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/MultipleAccessData.properties")
-	public class PageObject {
+	public class PageObjectProperties {
 		@FindByProperties
 		private WebElement element1;
 		@FindByProperties
+		private WebElement element2;
+	}
+	
+	@ExcelFile(filePath = "src/test/resources/excel/MultipleAccessData.xlsx")
+	public class PageObjectExcel {
+		@FindByExcel
+		private WebElement element1;
+		@FindByExcel
+		private WebElement element2;
+	}
+	
+	@ExcelFile(filePath = "src/test/resources/excel/MultipleAccessData.xlsx")
+	public class PageObjectExcelSec {
+		@FindByExcel
+		private WebElement element1;
+		@FindByExcel
 		private WebElement element2;
 	}
 

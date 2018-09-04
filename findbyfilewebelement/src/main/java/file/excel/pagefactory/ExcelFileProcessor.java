@@ -34,6 +34,7 @@ public class ExcelFileProcessor implements FileProcessor {
 		if (FieldByCache.doesByExistForField(field))
 			return;
 
+		System.out.println(Thread.currentThread().getId() + "---" + "Processing Excel");
 		try (Workbook workbook = WorkbookFactory.create(new File(path));) {
 			Sheet sheet = workbook.getSheet(sheetName);
 			DataFormatter dataFormatter = new DataFormatter();
