@@ -14,6 +14,10 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 
+import file.excel.pagefactory.ExcelAnnotation;
+import file.excel.pagefactory.ExcelFileProcessor;
+import file.excel.pagefactory.FindByExcel;
+import file.excel.pagefactory.ExcelAnnotationTest.PageObject;
 import file.pagefactory.FieldByCache;
 
 public class JsonAnnotationTest {
@@ -142,7 +146,7 @@ public class JsonAnnotationTest {
 	}
 	
 	@Test
-	public void testBuildByFindByJsonAnntation() throws Exception {
+	public void testBuildByFindByJsonAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element1");
 		JsonAnnotation pa = new JsonAnnotation(elem1, new JsonFileProcessor());
@@ -150,21 +154,40 @@ public class JsonAnnotationTest {
 		FieldByCache.addDetail(elem1, exBy);	
 		assertEquals("By value not returned correctly.", exBy, pa.buildBy());
 	}
+	
+	@Test
+	public void testBuildByMissingFieldFindByJsonAnnotation() throws Exception {
+		PageObject po = new PageObject();
+		Field elem1 = po.getClass().getDeclaredField("elementMissData");
+		JsonAnnotation pa = new JsonAnnotation(elem1, new JsonFileProcessor());
+		try {
+			pa.buildBy();
+			fail(elem1.getName() + " field data is not present in data file.");
+		} catch (Exception e) {
+			assertNotEquals(elem1.getName() + " field data is not present in data file.", 
+					IllegalArgumentException.class, e);
+			assertEquals("Thrown message is wrong.", elem1.getName() + " locator data for @FindByJson" + 
+					" is not available in the data file at the path mentioned in @JsonFile.", 
+					e.getMessage());
+		}
+	}
 
 	@Test
-	public void testBuildByFindByAnntation() throws Exception {
+	public void testBuildByFindByAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element2");
 		JsonAnnotation pa = new JsonAnnotation(elem1, new JsonFileProcessor());
 		assertEquals("By value not returned correctly.", By.id("exampleId"), pa.buildBy());
 	}
 	
-	@JsonFile(filePath = "")
+	@JsonFile(filePath = "src/test/resources/json/MissingElementData.json")
 	public class PageObject {
 		@FindByJson
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByJson
+		private WebElement elementMissData;
 	}
 
 	public class PageObjectWOFilePathAnnotation {

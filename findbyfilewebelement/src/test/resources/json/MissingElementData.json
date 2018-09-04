@@ -1,0 +1,13 @@
+[
+	{
+		"className" : "file.json.pagefactory.JsonAnnotationTest$PageObject",
+		"fieldBy" : 
+			[
+				{
+					"field" : "element1",
+					"how" : "ID",
+					"using" : "element1"
+				}
+			]
+	}
+]

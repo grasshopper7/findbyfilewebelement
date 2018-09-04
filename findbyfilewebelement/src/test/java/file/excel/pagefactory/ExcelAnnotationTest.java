@@ -15,6 +15,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 
 import file.pagefactory.FieldByCache;
+import file.properties.pagefactory.FindByProperties;
+import file.properties.pagefactory.PropertiesAnnotation;
+import file.properties.pagefactory.PropertiesFileProcessor;
+import file.properties.pagefactory.PropertiesAnnotationTest.PageObject;
 
 public class ExcelAnnotationTest {
 
@@ -142,7 +146,7 @@ public class ExcelAnnotationTest {
 	}
 	
 	@Test
-	public void testBuildByFindByExcelAnntation() throws Exception {
+	public void testBuildByFindByExcelAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element1");
 		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
@@ -152,19 +156,38 @@ public class ExcelAnnotationTest {
 	}
 
 	@Test
-	public void testBuildByFindByAnntation() throws Exception {
+	public void testBuildByMissingFieldFindByExcelAnnotation() throws Exception {
+		PageObject po = new PageObject();
+		Field elem1 = po.getClass().getDeclaredField("elementMissData");
+		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
+		try {
+			pa.buildBy();
+			fail(elem1.getName() + " field data is not present in data file.");
+		} catch (Exception e) {
+			assertNotEquals(elem1.getName() + " field data is not present in data file.", 
+					IllegalArgumentException.class, e);
+			assertEquals("Thrown message is wrong.", elem1.getName() + " locator data for @FindByExcel" + 
+					" is not available in the data file at the path mentioned in @ExcelFile.", 
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testBuildByFindByAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element2");
 		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
 		assertEquals("By value not returned correctly.", By.id("exampleId"), pa.buildBy());
 	}
 	
-	@ExcelFile(filePath = "")
+	@ExcelFile(filePath = "src/test/resources/excel/MissingElementData.xlsx")
 	public class PageObject {
 		@FindByExcel
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByExcel
+		private WebElement elementMissData;
 	}
 
 	public class PageObjectWOFilePathAnnotation {

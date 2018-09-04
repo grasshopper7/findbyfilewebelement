@@ -32,8 +32,8 @@ public abstract class AbstractFileAnnotations extends Annotations {
 				}
 			}
 			if (!FieldByCache.doesByExistForField(getField()))
-				throw new IllegalArgumentException(getField().getName() + " locator data for " + getFieldAnnotationName() + 
-						" is not available in the data file at the path mentioned in " + getFileAnnotationName());
+				throw new IllegalArgumentException(getField().getName() + " locator data for @" + getFieldAnnotationName() + 
+						" is not available in the data file at the path mentioned in @" + getFileAnnotationName() +".");
 			return FieldByCache.getByForField(getField());
 		}
 		return super.buildBy();

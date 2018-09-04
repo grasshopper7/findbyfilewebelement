@@ -38,7 +38,7 @@ public class PropertiesAnnotationTest {
 		} catch (Exception e) {
 			assertNotEquals("@PropertiesFile annotation need to be present.", 
 					IllegalArgumentException.class, e);
-			assertEquals("Thrown message is wrong. ", "@PropertiesFile annotation is missing on class level.", 
+			assertEquals("Thrown message is wrong.", "@PropertiesFile annotation is missing on class level.", 
 					e.getMessage());
 		}
 	}
@@ -142,7 +142,7 @@ public class PropertiesAnnotationTest {
 	}
 	
 	@Test
-	public void testBuildByFindByPropertiesAnntation() throws Exception {
+	public void testBuildByFindByPropertiesAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element1");
 		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
@@ -150,21 +150,40 @@ public class PropertiesAnnotationTest {
 		FieldByCache.addDetail(elem1, exBy);	
 		assertEquals("By value not returned correctly.", exBy, pa.buildBy());
 	}
+	
+	@Test
+	public void testBuildByMissingFieldFindByPropertiesAnnotation() throws Exception {
+		PageObject po = new PageObject();
+		Field elem1 = po.getClass().getDeclaredField("elementMissData");
+		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+		try {
+			pa.buildBy();
+			fail(elem1.getName() + " field data is not present in data file.");
+		} catch (Exception e) {
+			assertNotEquals(elem1.getName() + " field data is not present in data file.", 
+					IllegalArgumentException.class, e);
+			assertEquals("Thrown message is wrong.", elem1.getName() + " locator data for @FindByProperties" + 
+					" is not available in the data file at the path mentioned in @PropertiesFile.", 
+					e.getMessage());
+		}
+	}
 
 	@Test
-	public void testBuildByFindByAnntation() throws Exception {
+	public void testBuildByFindByAnnotation() throws Exception {
 		PageObject po = new PageObject();
 		Field elem1 = po.getClass().getDeclaredField("element2");
 		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
 		assertEquals("By value not returned correctly.", By.id("exampleId"), pa.buildBy());
 	}
 	
-	@PropertiesFile(filePath = "")
+	@PropertiesFile(filePath = "src/test/resources/properties/MissingElementData.properties")
 	public class PageObject {
 		@FindByProperties
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByProperties
+		private WebElement elementMissData;
 	}
 
 	public class PageObjectWOFilePathAnnotation {

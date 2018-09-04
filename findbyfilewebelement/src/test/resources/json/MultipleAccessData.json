@@ -1,0 +1,18 @@
+[
+	{
+		"className" : "file.pagefactory.MultipleThreadCacheTest$PageObjectJson",
+		"fieldBy" : 
+			[
+				{
+					"field" : "element1",
+					"how" : "Name",
+					"using" : "element1"
+				},
+				{
+					"field" : "element2",
+					"how" : "Name",
+					"using" : "element2"
+				}
+			]
+	}
+]
