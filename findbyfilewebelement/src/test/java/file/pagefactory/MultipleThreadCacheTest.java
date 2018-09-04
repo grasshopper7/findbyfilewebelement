@@ -17,6 +17,21 @@ import file.properties.pagefactory.PropertiesFileProcessor;
 
 public class MultipleThreadCacheTest {
 	
+	/*
+	 * Tests
+	 * - Two threads of same file processor type at almost same time updating same page object data, repeat for other 2 types.
+	 * - Two threads of same file processor type at almost same time updating different page object data, repeat for other 2 types.
+	 * 
+	 * - Three threads of different file processor type at almost same time updating same page object data
+	 * - Three threads of different file processor type at almost same time updating different page object data
+	 * 
+	 * - Three threads of different file processor type at different time updating same page object data
+	 * - Three threads of different file processor type at different time updating different page object data
+	 * 
+	 * - Three threads of different file processor type at almost same time updating different page object data with some standard @FindBy fields.
+	 * 
+	 */
+	
 	@Test
 	public void testMultipleAccess() throws InterruptedException {
 		
