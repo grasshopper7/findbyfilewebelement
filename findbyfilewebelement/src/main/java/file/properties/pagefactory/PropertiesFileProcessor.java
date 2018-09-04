@@ -25,14 +25,14 @@ public class PropertiesFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public void parseDataSource(Field field) {
+	public  void parseDataSource(Field field) {
 
 		// If data is got from previous parsing then return.
 		if (FieldByCache.doesByExistForField(field))
 			return;
 
 		Properties appProps = new Properties();
-
+		System.out.println(Thread.currentThread().getId() + "---" + "Processing");
 		try (FileInputStream fis = new FileInputStream(path);) {
 			appProps.load(fis);
 			Set<Object> keys = appProps.keySet();
@@ -47,13 +47,14 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 				Class<?> pkgCls = Class.forName(keyDets[0]);
 
-				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]), 
+				FieldByCache.addDetail(pkgCls.getDeclaredField(keyDets[1]),
 						ByCreator.createBy(valDets[0].toUpperCase(), valDets[1]));
 			}
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+
 	}
 
 	@Override

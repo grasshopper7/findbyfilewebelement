@@ -11,6 +11,8 @@ import org.openqa.selenium.support.pagefactory.Annotations;
 public abstract class AbstractFileAnnotations extends Annotations {
 
 	protected FileProcessor fileProcessor;
+	private static Object obj = new Object();
+
 
 	public AbstractFileAnnotations(Field field, FileProcessor fileProcessor) {
 		super(field);
@@ -24,8 +26,11 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	public By buildBy(boolean fieldAnnotationExists) {
 		assertValidAnnotations();
 		if (fieldAnnotationExists) {
-			if (!FieldByCache.doesByExistForField(getField()))
-				fileProcessor.populateData(getField());
+			if (!FieldByCache.doesByExistForField(getField())) {
+				synchronized (obj) {
+					fileProcessor.populateData(getField());
+				}
+			}
 			return FieldByCache.getByForField(getField());
 		}
 		return super.buildBy();
