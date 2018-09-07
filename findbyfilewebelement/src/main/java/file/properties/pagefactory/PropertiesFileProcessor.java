@@ -19,18 +19,23 @@ public class PropertiesFileProcessor implements FileProcessor {
 
 	@Override
 	public void dataSourceDetails(Field field) {
+
 		PropertiesFile propsFile = field.getDeclaringClass().getAnnotation(PropertiesFile.class);
 		path = propsFile.filePath();
 		delimiter = propsFile.delimiter();
 	}
 
-	@Override
-	public  void parseDataSource(Field field) {
-
+	/*@Override
+	public  void checkAndCallParseDataSource(Field field) {
+		System.out.println(Thread.currentThread().getId() + "---" + "Check data In here");
 		// If data is got from previous parsing then return.
 		if (FieldByCache.doesByExistForField(field))
 			return;
-
+		parseDataSource();		
+	}*/
+	
+	@Override
+	public void parseDataSource() {
 		Properties appProps = new Properties();
 		System.out.println(Thread.currentThread().getId() + "---" + "Processing Properties");
 		try (FileInputStream fis = new FileInputStream(path);) {
@@ -54,7 +59,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Override

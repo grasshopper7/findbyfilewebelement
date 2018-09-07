@@ -26,11 +26,11 @@ public class JsonFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public void parseDataSource(Field field) {
+	public void parseDataSource(/*Field field*/) {
 
 		// If data is got from previous parsing then return.
-		if (FieldByCache.doesByExistForField(field))
-			return;
+		/*if (FieldByCache.doesByExistForField(field))
+			return;*/
 		System.out.println(Thread.currentThread().getId() + "---" + "Processing Json");
 		Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>() {}.getType();
 		Gson gson = new Gson();
@@ -57,4 +57,5 @@ public class JsonFileProcessor implements FileProcessor {
 	public Annotations getAnnotation(Field field) {
 		return new JsonAnnotation(field, this);
 	}
+
 }

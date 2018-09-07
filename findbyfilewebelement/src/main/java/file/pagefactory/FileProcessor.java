@@ -8,7 +8,15 @@ public interface FileProcessor {
 
 	void dataSourceDetails(Field field);
 
-	void parseDataSource(Field field);
+	default void checkAndCallParseDataSource(Field field) {
+		System.out.println(Thread.currentThread().getId() + "---" + "Check data In here");
+		// If data is got from previous parsing then return.
+		if (FieldByCache.doesByExistForField(field))
+			return;
+		parseDataSource();
+	}
+	
+	void parseDataSource();
 
 	Annotations getAnnotation(Field field);
 
@@ -16,7 +24,7 @@ public interface FileProcessor {
 
 		dataSourceDetails(field);
 
-		parseDataSource(field);
+		checkAndCallParseDataSource(field);
 	}
 
 }

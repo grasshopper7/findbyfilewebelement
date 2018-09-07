@@ -1,13 +1,17 @@
 package file.test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.time.Instant;
+
+import org.mockito.Mockito;
 
 //import org.apache.poi.EncryptedDocumentException;
 //import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import file.excel.pagefactory.ExcelFile;
 import file.excel.pagefactory.FindByExcel;
+import file.properties.pagefactory.PropertiesFileProcessor;
 
 @ExcelFile(filePath = "E:/sample-xlsx-file.xlsx")
 public class FindTest {
@@ -88,11 +92,18 @@ public class FindTest {
 		String[] splitted = "peter##james##thomas".split("##");
 		System.out.println(Arrays.toString(splitted));*/
 		
-		Instant lastUpdated = Instant.now();
+		/*Instant lastUpdated = Instant.now();
 		Thread.sleep(3596);
 		Instant two = Instant.ofEpochSecond(lastUpdated.getEpochSecond(), lastUpdated.getNano());
 		
-		System.out.println(two.equals(lastUpdated));
+		System.out.println(two.equals(lastUpdated));*/
+		
+		/*PropertiesFileProcessor spyHell = Mockito.spy(PropertiesFileProcessor.class);
+		spyHell.trial(Mockito.mock(Field.class));
+		
+		Mockito.verify(spyHell, Mockito.times(1)).trial(Mockito.any(Field.class));
+		System.out.println("Done");*/
 	}
+	
 
 }

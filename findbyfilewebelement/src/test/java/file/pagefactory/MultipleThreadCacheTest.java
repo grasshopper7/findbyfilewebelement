@@ -1,159 +1,96 @@
 package file.pagefactory;
 
 import java.lang.reflect.Field;
-import java.time.Instant;
 
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
-import file.excel.pagefactory.ExcelAnnotation;
-import file.excel.pagefactory.ExcelFile;
-import file.excel.pagefactory.ExcelFileProcessor;
-import file.excel.pagefactory.FindByExcel;
 import file.properties.pagefactory.FindByProperties;
-import file.properties.pagefactory.PropertiesAnnotation;
 import file.properties.pagefactory.PropertiesFile;
 import file.properties.pagefactory.PropertiesFileProcessor;
 
 public class MultipleThreadCacheTest {
-	
-	/*
-	 * Tests
-	 * - Two threads of same file processor type at almost same time updating same page object data, repeat for other 2 types.
-	 * - Two threads of same file processor type at almost same time updating different page object data, repeat for other 2 types.
-	 * 
-	 * - Three threads of different file processor type at almost same time updating same page object data
-	 * - Three threads of different file processor type at almost same time updating different page object data
-	 * 
-	 * - Three threads of different file processor type at different time updating same page object data
-	 * - Three threads of different file processor type at different time updating different page object data
-	 * 
-	 * - Three threads of different file processor type at almost same time updating different page object data with some standard @FindBy fields.
-	 * 
-	 */
-	
-	@Test
-	public void testMultipleAccess() throws InterruptedException {
+
+	// Two threads of properties file processor at almost same time updating same
+	// page object data
+	@Test()
+	public void twoSameTimePropertiesFileThreadsWithSamePageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
+
+		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
+		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);		
 		
-		FileAccessPropertiesRun far = new FileAccessPropertiesRun();
-		Thread t1 = (new Thread(far));
-		t1.start();		
+		Thread thread1 = propertiesThread(pfp1);
+		Thread thread2 = propertiesThread(pfp2);
 		
-		FileAccessPropertiesRunSec far1 = new FileAccessPropertiesRunSec();
-		Thread t2 =  (new Thread(far1));
-		t2.start();
+		thread1.start();
+		thread2.start();
 		
-		FileAccessExcelRun far2 = new FileAccessExcelRun();
-		Thread t3 = (new Thread(far2));
-		t3.start();
+		thread1.join(5000);
+		thread2.join(5000);
 		
-		FileAccessExcelRunSec far3 = new FileAccessExcelRunSec();
-		Thread t4 = (new Thread(far3));
-		t4.start();
-			
-		t1.join(3000);
-		t2.join(3000);
-		t3.join(5000);
-		t4.join(5000);
+		//Second thread will be waiting at the synchronized line in AbstractFileAnnotations
+		//buildBy(boolean) method. This will enter the PropertiesFileProcessor 
+		//checkAndCallParseDataSource(Field) but will return after check.
+		Mockito.verify(pfp1, Mockito.times(1)).checkAndCallParseDataSource(Mockito.any(Field.class));
+		Mockito.verify(pfp2, Mockito.times(1)).checkAndCallParseDataSource(Mockito.any(Field.class));
 		
-		//Thread.sleep(10000);
+		Mockito.verify(pfp1, Mockito.times(1)).parseDataSource();
+		Mockito.verify(pfp2, Mockito.times(0)).parseDataSource();
 		
 		System.out.println(FieldByCache.size());
 	}
 	
-	public class FileAccessPropertiesRun implements Runnable {
+	// Two threads of properties file processor at different time updating same
+	// page object data
+	@Test()
+	public void twoDifferentTimePropertiesFileThreadsWithSamePageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
 
-		@Override
-		public void run() {
-			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObjectProperties po = new PageObjectProperties();
-			try {
-				Field elem1 = po.getClass().getDeclaredField("element1");
-				PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
-				pa.buildBy();
-				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
-				FieldByCache.printCache();
-			} catch (NoSuchFieldException | SecurityException e) {
-				throw new RuntimeException(e);
-			}			
-		}
+		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
+		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);		
+		
+		Thread thread1 = propertiesThread(pfp1);
+		Thread thread2 = propertiesThread(pfp2);
+		
+		thread1.start();
+		Thread.sleep(4000);
+		thread2.start();
+		
+		thread1.join(5000);
+		thread2.join(5000);
+		
+		//Second thread will be not enter the if condition in AbstractFileAnnotations
+		//buildBy(boolean) method and return. This will not enter the PropertiesFileProcessor 
+		//checkAndCallParseDataSource(Field).
+		Mockito.verify(pfp1, Mockito.times(1)).checkAndCallParseDataSource(Mockito.any(Field.class));
+		Mockito.verify(pfp2, Mockito.never()).checkAndCallParseDataSource(Mockito.any(Field.class));
+		
+		Mockito.verify(pfp1, Mockito.times(1)).parseDataSource();
+		Mockito.verify(pfp2, Mockito.never()).parseDataSource();
+		
+		System.out.println(FieldByCache.size());
 	}
-	
-	public class FileAccessPropertiesRunSec implements Runnable {
 
-		@Override
-		public void run() {
-			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObjectProperties po = new PageObjectProperties();
-			try {
-				Field elem1 = po.getClass().getDeclaredField("element2");
-				PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
-				pa.buildBy();
-				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
-				FieldByCache.printCache();
-			} catch (NoSuchFieldException | SecurityException e) {
-				throw new RuntimeException(e);
-			}			
-		}
+	private Thread propertiesThread(PropertiesFileProcessor pfp) {
+		return new Thread(new Runnable() {
+			@Override
+			public void run() {
+				WebDriver driver = Mockito.mock(WebDriver.class);
+				FileElementLocatorFactory felf = new FileElementLocatorFactory(driver, pfp);
+				PageFactory.initElements(felf, new PageObjectProperties());
+			}
+		});
 	}
-	
-	public class FileAccessExcelRun implements Runnable {
 
-		@Override
-		public void run() {
-			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObjectExcel po = new PageObjectExcel();
-			try {
-				Field elem1 = po.getClass().getDeclaredField("element1");
-				ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
-				pa.buildBy();
-				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
-				FieldByCache.printCache();
-			} catch (NoSuchFieldException | SecurityException e) {
-				throw new RuntimeException(e);
-			}			
-		}
-	}
-	
-	public class FileAccessExcelRunSec implements Runnable {
-
-		@Override
-		public void run() {
-			System.out.println(Thread.currentThread().getId() + "--Start--"+Instant.now());
-			PageObjectExcel po = new PageObjectExcel();
-			try {
-				Field elem1 = po.getClass().getDeclaredField("element2");
-				ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
-				pa.buildBy();
-				System.out.println(Thread.currentThread().getId() + "---"+FieldByCache.lastUpdatedInstant());
-				FieldByCache.printCache();
-			} catch (NoSuchFieldException | SecurityException e) {
-				throw new RuntimeException(e);
-			}			
-		}
-	}
-	
-	@PropertiesFile(filePath = "src/test/resources/properties/MultipleAccessData.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesData.properties")
 	public class PageObjectProperties {
 		@FindByProperties
 		private WebElement element1;
 		@FindByProperties
-		private WebElement element2;
-	}
-	
-	@ExcelFile(filePath = "src/test/resources/excel/MultipleAccessData.xlsx")
-	public class PageObjectExcel {
-		@FindByExcel
-		private WebElement element1;
-		@FindByExcel
-		private WebElement element2;
-	}
-	
-	@ExcelFile(filePath = "src/test/resources/excel/MultipleAccessData.xlsx")
-	public class PageObjectExcelSec {
-		@FindByExcel
-		private WebElement element1;
-		@FindByExcel
 		private WebElement element2;
 	}
 

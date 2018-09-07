@@ -14,6 +14,7 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 	}
 
 	public By buildBy() {
+		System.out.println(Thread.currentThread().getId() + "---" + "PROPS ANNOT --- " + getField().getName());
 		return super.buildBy(getField().getAnnotation(FindByProperties.class) != null);
 	}
 

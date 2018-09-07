@@ -29,10 +29,7 @@ public class ExcelFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public void parseDataSource(Field field) {
-		// If data is got from previous parsing then return.
-		if (FieldByCache.doesByExistForField(field))
-			return;
+	public void parseDataSource(/*Field field*/) {
 
 		System.out.println(Thread.currentThread().getId() + "---" + "Processing Excel");
 		try (Workbook workbook = WorkbookFactory.create(new File(path));) {

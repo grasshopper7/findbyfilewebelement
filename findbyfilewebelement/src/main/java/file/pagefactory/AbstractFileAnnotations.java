@@ -28,7 +28,8 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		if (fieldAnnotationExists) {
 			if (!FieldByCache.doesByExistForField(getField())) {
 				synchronized (obj) {
-					fileProcessor.populateData(getField());
+					System.out.println(Thread.currentThread().getId() + "---" + "Synchronize data In here");
+					fileProcessor.populateData(getField());			
 				}
 			}
 			if (!FieldByCache.doesByExistForField(getField()))

@@ -1,6 +1,6 @@
 [
 	{
-		"className" : "file.pagefactory.MultipleThreadCacheTest$PageObjectJson",
+		"className" : "file.pagefactory.ThreadingTest$PageObjectJson",
 		"fieldBy" : 
 			[
 				{
