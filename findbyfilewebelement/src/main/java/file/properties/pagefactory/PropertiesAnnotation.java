@@ -38,4 +38,8 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 	public String getFileAnnotationName() {
 		return PropertiesFile.class.getSimpleName();
 	}
+	
+	public static String getFindByAnnotationFullName() {
+		return FindByProperties.class.getName();
+	}
 }
