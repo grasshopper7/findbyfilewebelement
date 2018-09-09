@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import org.openqa.selenium.By;
 
+import file.json.pagefactory.FindByJson;
 import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.FileProcessor;
 
@@ -36,5 +37,9 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 	@Override
 	public String getFileAnnotationName() {
 		return ExcelFile.class.getSimpleName();
+	}
+	
+	public static String getFindByAnnotationFullName() {
+		return FindByExcel.class.getName();
 	}
 }

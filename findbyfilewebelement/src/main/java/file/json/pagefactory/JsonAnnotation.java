@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 
 import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.FileProcessor;
+import file.properties.pagefactory.FindByProperties;
 
 public class JsonAnnotation extends AbstractFileAnnotations {
 
@@ -35,5 +36,9 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 	@Override
 	public String getFileAnnotationName() {
 		return JsonFile.class.getSimpleName();
+	}
+	
+	public static String getFindByAnnotationFullName() {
+		return FindByJson.class.getName();
 	}
 }
