@@ -6,14 +6,14 @@ import java.time.Instant;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
-import file.excel.pagefactory.ExcelAnnotation;
-import file.excel.pagefactory.ExcelFile;
-import file.excel.pagefactory.ExcelFileProcessor;
-import file.excel.pagefactory.FindByExcel;
-import file.properties.pagefactory.FindByProperties;
-import file.properties.pagefactory.PropertiesAnnotation;
-import file.properties.pagefactory.PropertiesFile;
-import file.properties.pagefactory.PropertiesFileProcessor;
+import file.pagefactory.excel.ExcelAnnotation;
+import file.pagefactory.excel.ExcelFile;
+import file.pagefactory.excel.ExcelFileProcessor;
+import file.pagefactory.excel.FindByExcel;
+import file.pagefactory.properties.FindByProperties;
+import file.pagefactory.properties.PropertiesAnnotation;
+import file.pagefactory.properties.PropertiesFile;
+import file.pagefactory.properties.PropertiesFileProcessor;
 
 public class ThreadingTest {
 	

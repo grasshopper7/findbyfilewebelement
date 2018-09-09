@@ -1,6 +1,6 @@
 [
 	{
-		"className" : "file.json.pagefactory.JsonFileProcessorTest$InValidJsonWrongFieldByHowPage",
+		"className" : "file.pagefactory.json.JsonFileProcessorTest$InValidJsonWrongFieldByHowPage",
 		"fieldBy" : 
 			[
 				{

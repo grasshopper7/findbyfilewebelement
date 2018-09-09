@@ -1,6 +1,6 @@
 [
 	{
-		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$FirstMultiplePage",
+		"className" : "file.pagefactory.json.JsonFileProcessorMultiplePageTest$FirstMultiplePage",
 		"fieldBy" : 
 			[
 				{
@@ -16,7 +16,7 @@
 			]
 	},
 	{
-		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
+		"className" : "file.pagefactory.json.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
 		"fieldBy" : 
 			[
 				{
@@ -32,7 +32,7 @@
 			]
 	},
 	{
-		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$SecondMultiplePage",
+		"className" : "file.pagefactory.json.JsonFileProcessorMultiplePageTest$SecondMultiplePage",
 		"fieldBy" : 
 			[
 				{
@@ -43,7 +43,7 @@
 			]
 	},
 	{
-		"className" : "file.json.pagefactory.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
+		"className" : "file.pagefactory.json.JsonFileProcessorMultiplePageTest$ThirdMultiplePage",
 		"fieldBy" : 
 			[
 				{
