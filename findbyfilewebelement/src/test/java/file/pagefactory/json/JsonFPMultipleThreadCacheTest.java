@@ -10,6 +10,30 @@ import file.pagefactory.TestPage;
 
 public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 
+	// Two threads of properties file processor at same time updating same
+	// page object data	
+	@Test()
+	public void twoSameTimeJsonFileThreadsWithSamePageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
+
+		// Second thread will be not enter the if condition in AbstractFileAnnotations
+		// buildBy(boolean) method and return. This will not enter the
+		// JsonFileProcessor
+		// checkAndCallParseDataSource(Field).
+
+		JsonFileProcessor pfp1 = Mockito.spy(JsonFileProcessor.class);
+		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
+
+		FileProcessor[] fp = { pfp1, pfp2 };
+		TestPage[] tp = { new PageObjectJsonFirst(), new PageObjectJsonFirst() };
+		Integer[] checkCalls = { 1, 1 };
+		Integer[] parseCalls = { 1, 1 };
+		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
+				JsonAnnotation.getFindByAnnotationFullName()};
+
+		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+	}	
+	
 	// Two threads of Json file processor at different time updating same
 	// page object data
 	@Test()
@@ -31,7 +55,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
 				JsonAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, false, true, checkCalls, parseCalls,annotations);
 	}
 
 	// Two threads of Json file processor at almost same time updating different
@@ -51,7 +75,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
 		JsonAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	
@@ -72,7 +96,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
 				JsonAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	// Two threads of Json file processor at different time updating different
@@ -92,7 +116,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
 				JsonAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}	
 	
 	// Two threads of Json file processor at different time updating different
@@ -112,7 +136,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { JsonAnnotation.getFindByAnnotationFullName(),
 				JsonAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}
 	
 
@@ -140,7 +164,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element6;
 	}
 	
-	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFourthData.json")
+	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFourData.json")
 	public class PageObjectJsonFourth implements TestPage {
 		@FindByJson
 		private WebElement element7;
@@ -148,7 +172,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element8;
 	}
 
-	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFifthData.json")
+	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFiveData.json")
 	public class PageObjectJsonFifth implements TestPage {
 		@FindByJson
 		private WebElement element9;

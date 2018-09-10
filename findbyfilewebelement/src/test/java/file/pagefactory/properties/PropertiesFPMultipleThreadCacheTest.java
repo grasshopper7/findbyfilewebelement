@@ -10,6 +10,31 @@ import file.pagefactory.TestPage;
 
 public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 
+	// Two threads of properties file processor at same time updating same
+	// page object data	
+	@Test()
+	public void twoSameTimePropertiesFileThreadsWithSamePageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
+
+		// Second thread will be not enter the if condition in AbstractFileAnnotations
+		// buildBy(boolean) method and return. This will not enter the
+		// PropertiesFileProcessor
+		// checkAndCallParseDataSource(Field).
+
+		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
+		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);
+
+		FileProcessor[] fp = { pfp1, pfp2 };
+		TestPage[] tp = { new PageObjectPropertiesFirst(), new PageObjectPropertiesFirst() };
+		Integer[] checkCalls = { 1, 1 };
+		Integer[] parseCalls = { 1, 1 };
+		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
+				PropertiesAnnotation.getFindByAnnotationFullName()};
+
+		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+	}
+
+	
 	// Two threads of properties file processor at different time updating same
 	// page object data
 	@Test()
@@ -31,7 +56,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
 				PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, false, true, checkCalls, parseCalls,annotations);
 	}
 
 	// Two threads of properties file processor at almost same time updating different
@@ -51,7 +76,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
 		PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	
@@ -72,7 +97,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
 				PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	// Two threads of properties file processor at different time updating different
@@ -92,7 +117,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
 				PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}	
 	
 	// Two threads of properties file processor at different time updating different
@@ -112,7 +137,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
 				PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}
 	
 
@@ -140,7 +165,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		private WebElement element6;
 	}
 	
-	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFourthData.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFourData.properties")
 	public class PageObjectPropertiesFourth implements TestPage {
 		@FindByProperties
 		private WebElement element7;
@@ -148,7 +173,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 		private WebElement element8;
 	}
 
-	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFifthData.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFiveData.properties")
 	public class PageObjectPropertiesFifth implements TestPage {
 		@FindByProperties
 		private WebElement element9;

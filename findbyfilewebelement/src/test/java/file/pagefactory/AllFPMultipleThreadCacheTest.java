@@ -22,11 +22,27 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	
 	//Three threads of different file processor type at almost same time updating 
 	//different page object data.
-	@Test()
-	public void threeSameTimeFileProcessorThreadsWithDifferentPageObject()
+	@Test
+	public void sameTimeAllFileProcessorThreadsWithDifferentPageObject()
 			throws NoSuchFieldException, SecurityException, InterruptedException {
 		
+		executeAllFPThreads(false);
+		System.out.println("------------------");
+	}
+	
+	//Three threads of different file processor type at different time updating 
+	//different page object data.
+	@Test
+	public void differentTimeAllFileProcessorThreadsWithDifferentPageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
+	
+		executeAllFPThreads(true);
+		System.out.println("------------------");
+	}
 
+	
+	private void executeAllFPThreads(boolean time) throws InterruptedException {
+		
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
 		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
 		PropertiesFileProcessor pfp3 = Mockito.spy(PropertiesFileProcessor.class);
@@ -40,11 +56,10 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 				JsonAnnotation.getFindByAnnotationFullName(),
 				PropertiesAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls, annotations);
+		createThreadsAssertCache(fp, tp, true, time, checkCalls, parseCalls, annotations);
 	}
 
-
-	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesOneData.properties")
+	@PropertiesFile(filePath = "src/test/resources/properties/MultipleThreadPOPropertiesData.properties")
 	public class PageObjectPropertiesFirst implements TestPage {
 		@FindByProperties
 		private WebElement element1;
@@ -52,7 +67,7 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element2;
 	}
 
-	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonOneData.json")
+	@JsonFile(filePath = "src/test/resources/json/MultipleThreadPOJsonData.json")
 	public class PageObjectJsonFirst implements TestPage {
 		@FindByJson
 		private WebElement element1;
@@ -60,7 +75,7 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element2;
 	}
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelOneData.xlsx")
+	@ExcelFile(filePath = "src/test/resources/excel/MultipleThreadPOExcelData.xlsx")
 	public class PageObjectExcelFirst implements TestPage {
 		@FindByExcel
 		private WebElement element1;

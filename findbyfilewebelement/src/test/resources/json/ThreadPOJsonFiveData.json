@@ -1,0 +1,18 @@
+[
+	{
+		"className" : "file.pagefactory.json.JsonFPMultipleThreadCacheTest$PageObjectJsonFifth",
+		"fieldBy" : 
+			[
+				{
+					"field" : "element9",
+					"how" : "ID",
+					"using" : "element9"
+				},
+				{
+					"field" : "element10",
+					"how" : "ID",
+					"using" : "element10"
+				}
+			]
+	}	
+]

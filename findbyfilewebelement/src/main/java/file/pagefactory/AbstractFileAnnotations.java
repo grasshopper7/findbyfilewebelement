@@ -44,6 +44,7 @@ public abstract class AbstractFileAnnotations extends Annotations {
 		FindBys findBys = getField().getAnnotation(FindBys.class);
 		FindAll findAll = getField().getAnnotation(FindAll.class);
 		FindBy findBy = getField().getAnnotation(FindBy.class);
+		
 
 		if (fieldAnnotationExists && !fileAnnotationExists) {
 			throw new IllegalArgumentException("'@" + getFieldAnnotationName() + "' annotation must be use together with a "

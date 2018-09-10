@@ -10,6 +10,30 @@ import file.pagefactory.TestPage;
 
 public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 
+	// Two threads of Excel file processor at same time updating same
+	// page object data	
+	@Test()
+	public void twoSameTimeExcelFileThreadsWithSamePageObject()
+			throws NoSuchFieldException, SecurityException, InterruptedException {
+
+		// Second thread will be not enter the if condition in AbstractFileAnnotations
+		// buildBy(boolean) method and return. This will not enter the
+		// ExcelFileProcessor
+		// checkAndCallParseDataSource(Field).
+
+		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
+		ExcelFileProcessor pfp2 = Mockito.spy(ExcelFileProcessor.class);
+
+		FileProcessor[] fp = { pfp1, pfp2 };
+		TestPage[] tp = { new PageObjectExcelFirst(), new PageObjectExcelFirst() };
+		Integer[] checkCalls = { 1, 1 };
+		Integer[] parseCalls = { 1, 1 };
+		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
+				ExcelAnnotation.getFindByAnnotationFullName()};
+
+		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+	}
+	
 	// Two threads of Excel file processor at different time updating same
 	// page object data
 	@Test()
@@ -31,7 +55,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
 				ExcelAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, false, true, checkCalls, parseCalls,annotations);
 	}
 
 	// Two threads of Excel file processor at almost same time updating different
@@ -51,7 +75,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
 		ExcelAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	
@@ -72,7 +96,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
 				ExcelAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, false, checkCalls, parseCalls,annotations);
 	}
 	
 	// Two threads of Excel file processor at different time updating different
@@ -92,7 +116,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
 				ExcelAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}	
 	
 	// Two threads of Excel file processor at different time updating different
@@ -112,7 +136,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
 				ExcelAnnotation.getFindByAnnotationFullName()};
 
-		createThreadsAssertCache(fp, tp, false, false, checkCalls, parseCalls,annotations);
+		createThreadsAssertCache(fp, tp, true, true, checkCalls, parseCalls,annotations);
 	}
 	
 
@@ -140,7 +164,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element6;
 	}
 	
-	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFourthData.xlsx")
+	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFourData.xlsx")
 	public class PageObjectExcelFourth implements TestPage {
 		@FindByExcel
 		private WebElement element7;
@@ -148,7 +172,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element8;
 	}
 
-	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFifthData.xlsx")
+	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFiveData.xlsx")
 	public class PageObjectExcelFifth implements TestPage {
 		@FindByExcel
 		private WebElement element9;

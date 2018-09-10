@@ -33,6 +33,7 @@ public class BaseMultipleThreadCacheTest {
 
 	@Before
 	public void setup() {
+		System.out.println("--------");
 		FieldByCache.removeDetails();
 	}
 	
@@ -49,7 +50,7 @@ public class BaseMultipleThreadCacheTest {
 		threads[0].start();		
 		for(int i = 1;i < threads.length;i++) {
 			if(differentTime)
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			threads[i].start();
 		}
 		

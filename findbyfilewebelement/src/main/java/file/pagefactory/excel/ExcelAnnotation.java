@@ -7,6 +7,9 @@ import org.openqa.selenium.By;
 import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.FileProcessor;
 import file.pagefactory.json.FindByJson;
+import file.pagefactory.json.JsonFile;
+import file.pagefactory.properties.FindByProperties;
+import file.pagefactory.properties.PropertiesFile;
 
 public class ExcelAnnotation extends AbstractFileAnnotations {
 	
@@ -25,6 +28,14 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 		
 		if(excelFile == null)
 			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
+		
+		if(findExcel != null && (getField().getAnnotation(FindByJson.class) != null || 
+				getField().getAnnotation(FindByProperties.class) != null))
+			throw new IllegalArgumentException("Only @"+getFieldAnnotationName()+ " annotation is allowed on field level.");
+		
+		if(getField().getDeclaringClass().getAnnotation(JsonFile.class) != null || 
+				getField().getDeclaringClass().getAnnotation(PropertiesFile.class) != null)
+			throw new IllegalArgumentException("Only @"+getFileAnnotationName()+ " annotation is allowed on class level.");
 
 		super.assertValidAnnotations(findExcel != null, excelFile != null);
 	}
