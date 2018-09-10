@@ -15,6 +15,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 
 import file.pagefactory.FieldByCache;
+import file.pagefactory.excel.ExcelFile;
+import file.pagefactory.excel.FindByExcel;
+import file.pagefactory.json.FindByJson;
+import file.pagefactory.json.JsonFile;
 import file.pagefactory.properties.FindByProperties;
 import file.pagefactory.properties.PropertiesAnnotation;
 import file.pagefactory.properties.PropertiesFile;
@@ -65,6 +69,45 @@ public class PropertiesAnnotationTest {
 		Mockito.when(spyElem1.getAnnotation(FindByProperties.class)).thenReturn(null);
 		PropertiesAnnotation pa = new PropertiesAnnotation(spyElem1, new PropertiesFileProcessor());
 		checkPropertiesIllegalArgExcep(pa);
+	}
+	
+	private void checkFileAnnotationIllegalAdditionalExcep(PropertiesAnnotation pa) {
+		try {
+			pa.assertValidAnnotations();
+			fail("Additional File Processor annotation with @PropertiesFile is not allowed.");
+		} catch (Exception e) {
+			assertNotEquals("Additional File Processor annotation with @PropertiesFile is not allowed.", 
+					IllegalArgumentException.class, e);
+			assertEquals("Thrown message is wrong.", "Only @PropertiesFile annotation is allowed on class level.", 
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testAdditionalExcelFileAnnotation() throws Exception {
+		
+		PageObjectPropExcelFileAnnotation po = new PageObjectPropExcelFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
+	}
+	
+	@Test
+	public void testAdditionalJsonFileAnnotation() throws Exception {
+		
+		PageObjectPropJsonFileAnnotation po = new PageObjectPropJsonFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
+	}
+	
+	@Test
+	public void testAdditionalAllFileAnnotation() throws Exception {
+		
+		PageObjectAllFileAnnotation po = new PageObjectAllFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		PropertiesAnnotation pa = new PropertiesAnnotation(elem1, new PropertiesFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
 	}
 	
 	@Test
@@ -194,5 +237,26 @@ public class PropertiesAnnotationTest {
 		@FindByProperties
 		private WebElement element1;
 	}
+	
+	@PropertiesFile(filePath="")
+	@ExcelFile(filePath="")
+	public class PageObjectPropExcelFileAnnotation {
+		@FindByProperties
+		private WebElement element1;
+	}
 
+	@PropertiesFile(filePath="")
+	@JsonFile(filePath="")
+	public class PageObjectPropJsonFileAnnotation {
+		@FindByProperties
+		private WebElement element1;
+	}
+	
+	@PropertiesFile(filePath="")
+	@JsonFile(filePath="")
+	@ExcelFile(filePath="")
+	public class PageObjectAllFileAnnotation {
+		@FindByProperties
+		private WebElement element1;
+	}	
 }

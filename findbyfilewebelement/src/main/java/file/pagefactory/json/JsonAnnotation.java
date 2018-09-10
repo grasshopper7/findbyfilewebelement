@@ -28,14 +28,14 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 		if(jsonFile == null)
 			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
 		
-		if(findJson != null && (getField().getAnnotation(FindByExcel.class) != null || 
-				getField().getAnnotation(FindByProperties.class) != null))
-			throw new IllegalArgumentException("Only @"+getFieldAnnotationName()+ " annotation is allowed on field level.");
-		
 		if(getField().getDeclaringClass().getAnnotation(ExcelFile.class) != null || 
 				getField().getDeclaringClass().getAnnotation(PropertiesFile.class) != null)
 			throw new IllegalArgumentException("Only @"+getFileAnnotationName()+ " annotation is allowed on class level.");
 		
+		if(findJson != null && (getField().getAnnotation(FindByExcel.class) != null || 
+				getField().getAnnotation(FindByProperties.class) != null))
+			throw new IllegalArgumentException("Only @"+getFieldAnnotationName()+ " annotation is allowed on field level.");
+				
 		super.assertValidAnnotations(findJson != null, jsonFile != null);
 	}
 

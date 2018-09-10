@@ -19,9 +19,14 @@ import file.pagefactory.excel.ExcelAnnotation;
 import file.pagefactory.excel.ExcelFile;
 import file.pagefactory.excel.ExcelFileProcessor;
 import file.pagefactory.excel.FindByExcel;
+import file.pagefactory.json.JsonFile;
 import file.pagefactory.properties.FindByProperties;
 import file.pagefactory.properties.PropertiesAnnotation;
+import file.pagefactory.properties.PropertiesFile;
 import file.pagefactory.properties.PropertiesFileProcessor;
+import file.pagefactory.properties.PropertiesAnnotationTest.PageObjectAllFileAnnotation;
+import file.pagefactory.properties.PropertiesAnnotationTest.PageObjectPropExcelFileAnnotation;
+import file.pagefactory.properties.PropertiesAnnotationTest.PageObjectPropJsonFileAnnotation;
 
 public class ExcelAnnotationTest {
 
@@ -68,6 +73,45 @@ public class ExcelAnnotationTest {
 		Mockito.when(spyElem1.getAnnotation(FindByExcel.class)).thenReturn(null);
 		ExcelAnnotation pa = new ExcelAnnotation(spyElem1, new ExcelFileProcessor());
 		checkExcelIllegalArgExcep(pa);
+	}
+	
+	private void checkFileAnnotationIllegalAdditionalExcep(ExcelAnnotation pa) {
+		try {
+			pa.assertValidAnnotations();
+			fail("Additional File Processor annotation with @ExcelFile is not allowed.");
+		} catch (Exception e) {
+			assertNotEquals("Additional File Processor annotation with @ExcelFile is not allowed.", 
+					IllegalArgumentException.class, e);
+			assertEquals("Thrown message is wrong.", "Only @ExcelFile annotation is allowed on class level.", 
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testAdditionalPropertiesFileAnnotation() throws Exception {
+		
+		PageObjectExcelPropFileAnnotation po = new PageObjectExcelPropFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
+	}
+	
+	@Test
+	public void testAdditionalJsonFileAnnotation() throws Exception {
+		
+		PageObjectExcelJsonFileAnnotation po = new PageObjectExcelJsonFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
+	}
+	
+	@Test
+	public void testAdditionalAllFileAnnotation() throws Exception {
+		
+		PageObjectAllFileAnnotation po = new PageObjectAllFileAnnotation();
+		Field elem1 = po.getClass().getDeclaredField("element1");
+		ExcelAnnotation pa = new ExcelAnnotation(elem1, new ExcelFileProcessor());
+		checkFileAnnotationIllegalAdditionalExcep(pa);
 	}
 	
 	@Test
@@ -198,4 +242,25 @@ public class ExcelAnnotationTest {
 		private WebElement element1;
 	}
 
+	@PropertiesFile(filePath="")
+	@ExcelFile(filePath="")
+	public class PageObjectExcelPropFileAnnotation {
+		@FindByExcel
+		private WebElement element1;
+	}
+
+	@ExcelFile(filePath="")
+	@JsonFile(filePath="")
+	public class PageObjectExcelJsonFileAnnotation {
+		@FindByExcel
+		private WebElement element1;
+	}
+	
+	@PropertiesFile(filePath="")
+	@JsonFile(filePath="")
+	@ExcelFile(filePath="")
+	public class PageObjectAllFileAnnotation {
+		@FindByExcel
+		private WebElement element1;
+	}
 }
