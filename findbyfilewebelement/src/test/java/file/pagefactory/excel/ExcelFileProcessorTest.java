@@ -1,35 +1,54 @@
 package file.pagefactory.excel;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import file.pagefactory.BaseFileProcessorTest;
 import file.pagefactory.FieldByCache;
+import file.pagefactory.FileProcessor;
 import file.pagefactory.TestPage;
-import file.pagefactory.excel.ExcelAnnotation;
-import file.pagefactory.excel.ExcelFile;
-import file.pagefactory.excel.ExcelFileProcessor;
-import file.pagefactory.excel.FindByExcel;
 
-public class ExcelFileProcessorTest {
+public class ExcelFileProcessorTest extends BaseFileProcessorTest {
 	
-	@Test
-	public void testExcelAnnotation() {
-		Field field = mock(Field.class);
-		ExcelFileProcessor pfp = new ExcelFileProcessor();
-		assertEquals("Should return ExcelAnnotation", ExcelAnnotation.class, pfp.getAnnotation(field).getClass());
+	@Override
+	public FileProcessor createFileProcessor() {
+		return new ExcelFileProcessor();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class getRequisiteAnnotation() {
+		return ExcelAnnotation.class;
+	}
+	
+	@Override
+	public TestPage createValidFilePathPage() {
+		return new ValidFilePathPage();
 	}
 
-	@Test
-	public void testValidFilePath() {
-		Field field = createAndSetupEFP(new ValidFilePathPage(),"validFilePath");				
-		assertEquals("By stored in cache is not correct.", By.id("validFilePath"), FieldByCache.getByForField(field));
+	@Override
+	public TestPage createInValidFilePathPage() {
+		return new InValidFilePathPage();
+	}
+
+	@Override
+	public TestPage createInValidPageObjectPathPage() {
+		return new InValidPageObjectPathPage();
+	}
+
+	@Override
+	public TestPage createInValidFieldNamePage() {
+		return new InValidFieldNamePage();
+	}
+	
+	@Override
+	public TestPage createInValidHowPage() {
+		return new InValidHowPage();
 	}
 	
 	@Test
@@ -42,50 +61,6 @@ public class ExcelFileProcessorTest {
 	public void testValidFileInvalidHeader() {
 		Field field = createAndSetupEFP(new ValidFileInvalidHeadersPage(),"validFileInvalidHeader");				
 		assertEquals("By stored in cache is not correct.", By.id("validFileInvalidHeader"), FieldByCache.getByForField(field));
-	}
-	
-	@Test
-	public void testInValidFilePath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupEFP(new InValidFilePathPage(),"inValidFilePath");	
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be FileNotFoundExeption", FileNotFoundException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidPageObjectPath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupEFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be ClassNotFoundException", ClassNotFoundException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidFieldName()  {
-		Throwable fnfe = null;
-		try{
-			createAndSetupEFP(new InValidFieldNamePage(),"inValidFieldName");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be NoSuchFieldException", NoSuchFieldException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidHow()  {
-		Throwable fnfe = null;
-		try{
-			createAndSetupEFP(new InValidHowPage(),"inValidHow");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
 	}
 	
 	@Test

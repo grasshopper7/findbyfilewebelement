@@ -1,10 +1,7 @@
 package file.pagefactory.properties;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 
@@ -12,72 +9,62 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import file.pagefactory.BaseFileProcessorTest;
 import file.pagefactory.FieldByCache;
-import file.pagefactory.properties.FindByProperties;
-import file.pagefactory.properties.PropertiesAnnotation;
-import file.pagefactory.properties.PropertiesFile;
-import file.pagefactory.properties.PropertiesFileProcessor;
+import file.pagefactory.FileProcessor;
+import file.pagefactory.TestPage;
 
-public class PropertiesFileProcessorTest {
+public class PropertiesFileProcessorTest extends BaseFileProcessorTest {
 	
-	@Test
-	public void testPropertiesAnnotation() {
-		Field field = mock(Field.class);
-		PropertiesFileProcessor pfp = new PropertiesFileProcessor();
-		assertEquals("Should return PropertiesAnnotation", PropertiesAnnotation.class, pfp.getAnnotation(field).getClass());
+	@Override
+	public FileProcessor createFileProcessor() {
+		return new PropertiesFileProcessor();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class getRequisiteAnnotation() {
+		return PropertiesAnnotation.class;
+	}
+	
+	@Override
+	public TestPage createValidFilePathPage() {
+		return new ValidFilePathPage();
 	}
 
-	@Test
-	public void testValidFilePathDefaultDelimiter() {
-		Field field = createAndSetupPFP(new ValidFilePathDefaultDelimiterPage(),"validFileDefaultDelim");				
-		assertEquals("By stored in cache is not correct.", By.id("validFileDefaultDelim"), FieldByCache.getByForField(field));
+	@Override
+	public TestPage createInValidFilePathPage() {
+		return new InValidFilePathPage();
 	}
+
+	@Override
+	public TestPage createInValidPageObjectPathPage() {
+		return new InValidPageObjectPathPage();
+	}
+
+	@Override
+	public TestPage createInValidFieldNamePage() {
+		return new InValidFieldNamePage();
+	}
+	
+	@Override
+	public TestPage createInValidHowPage() {
+		return new InValidHowPage();
+	}
+	
 	
 	//Figure out which delimiters work...
 	@Test
 	public void testValidFilePathCustomDelimiter() {	
-		Field field = createAndSetupPFP(new ValidFilePathCustomDelimiterPage(),"validFileCustomDelim");
+		Field field = createAndSetupFileProcessor(new ValidFilePathCustomDelimiterPage(),"validFileCustomDelim");
 		assertEquals("By stored in cache is not correct.", By.name("validFileCustomDelim"), FieldByCache.getByForField(field));
-	}
-	
-	@Test
-	public void testInValidFilePath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupPFP(new InValidFilePathPage(),"inValidFile");		
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be FileNotFoundExeption", FileNotFoundException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidPageObjectPath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupPFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be ClassNotFoundException", ClassNotFoundException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidFieldName() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupPFP(new InValidFieldNamePage(),"inValidFieldName");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be NoSuchFieldException", NoSuchFieldException.class, fnfe.getClass());
 	}
 	
 	@Test
 	public void testInValidKey(){
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidKeyPage(),"inValidKey");
+			createAndSetupFileProcessor(new InValidKeyPage(),"inValidKey");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -88,41 +75,18 @@ public class PropertiesFileProcessorTest {
 	public void testInValidValue()  {
 		Throwable fnfe = null;
 		try{
-			createAndSetupPFP(new InValidValuePage(),"inValidValue");
+			createAndSetupFileProcessor(new InValidValuePage(),"inValidValue");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
 		assertEquals("Exception thrown needs to be ParseException", ParseException.class, fnfe.getClass());
 	}
 	
-	@Test
-	public void testInValidHow() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupPFP(new InValidHowPage(),"inValidHow");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
-	}
-	
-	private Field createAndSetupPFP(TestPage page, String fieldName) {
-		try {
-			PropertiesFileProcessor pfp = new PropertiesFileProcessor();
-			Field field = page.getClass().getField(fieldName);
-			pfp.populateData(field);
-			return field;
-		} catch (Exception e) {
-			throw new RuntimeException(e.getCause());
-		}		
-	}
-	
-	public interface TestPage{}	
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathDefaultDelimiterData.properties")
-	public class ValidFilePathDefaultDelimiterPage implements TestPage{		
+	public class ValidFilePathPage implements TestPage{		
 		@FindByProperties
-		public WebElement validFileDefaultDelim;
+		public WebElement validFilePath;
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/ValidFilePathCustomDelimiterData.properties", delimiter="%%")
@@ -134,7 +98,7 @@ public class PropertiesFileProcessorTest {
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidFilePathData.properties")
 	public class InValidFilePathPage implements TestPage{
 		@FindByProperties
-		public WebElement inValidFile;
+		public WebElement inValidFilePath;
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/InValidPageObjectPathData.properties")
@@ -167,5 +131,3 @@ public class PropertiesFileProcessorTest {
 		public WebElement inValidHow;
 	}
 }
-
-

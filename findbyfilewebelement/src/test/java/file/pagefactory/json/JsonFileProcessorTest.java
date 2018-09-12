@@ -1,92 +1,54 @@
 package file.pagefactory.json;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
-import java.text.ParseException;
 
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.google.gson.stream.MalformedJsonException;
 
-import file.pagefactory.FieldByCache;
-import file.pagefactory.json.FindByJson;
-import file.pagefactory.json.JsonAnnotation;
-import file.pagefactory.json.JsonFile;
-import file.pagefactory.json.JsonFileProcessor;
-import file.pagefactory.properties.FindByProperties;
-import file.pagefactory.properties.PropertiesFile;
-import file.pagefactory.properties.PropertiesFileProcessor;
-import file.pagefactory.properties.PropertiesFileProcessorTest.InValidFieldNamePage;
-import file.pagefactory.properties.PropertiesFileProcessorTest.InValidFilePathPage;
-import file.pagefactory.properties.PropertiesFileProcessorTest.InValidHowPage;
-import file.pagefactory.properties.PropertiesFileProcessorTest.InValidPageObjectPathPage;
-import file.pagefactory.properties.PropertiesFileProcessorTest.TestPage;
-import file.pagefactory.properties.PropertiesFileProcessorTest.ValidFilePathDefaultDelimiterPage;
+import file.pagefactory.BaseFileProcessorTest;
+import file.pagefactory.FileProcessor;
+import file.pagefactory.TestPage;
 
-public class JsonFileProcessorTest {
+public class JsonFileProcessorTest extends BaseFileProcessorTest {
 	
-	@Test
-	public void testJsonAnnotation() {
-		Field field = mock(Field.class);
-		JsonFileProcessor pfp = new JsonFileProcessor();
-		assertEquals("Should return JsonAnnotation", JsonAnnotation.class, pfp.getAnnotation(field).getClass());
+	@Override
+	public FileProcessor createFileProcessor() {
+		return new JsonFileProcessor();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Class getRequisiteAnnotation() {
+		return JsonAnnotation.class;
+	}
+	
+	@Override
+	public TestPage createValidFilePathPage() {
+		return new ValidFilePathPage();
 	}
 
-	@Test
-	public void testValidFilePath() {
-		Field field = createAndSetupJFP(new ValidFilePathPage(),"validFilePath");				
-		assertEquals("By stored in cache is not correct.", By.id("validFilePath"), FieldByCache.getByForField(field));
+	@Override
+	public TestPage createInValidFilePathPage() {
+		return new InValidFilePathPage();
+	}
+
+	@Override
+	public TestPage createInValidPageObjectPathPage() {
+		return new InValidPageObjectPathPage();
+	}
+
+	@Override
+	public TestPage createInValidFieldNamePage() {
+		return new InValidFieldNamePage();
 	}
 	
-	@Test
-	public void testInValidFilePath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupJFP(new InValidFilePathPage(),"inValidFilePath");	
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be FileNotFoundExeption", FileNotFoundException.class, fnfe.getClass());
+	@Override
+	public TestPage createInValidHowPage() {
+		return new InValidHowPage();
 	}
 	
-	@Test
-	public void testInValidPageObjectPath() {
-		Throwable fnfe = null;
-		try{
-			createAndSetupJFP(new InValidPageObjectPathPage(),"inValidPageObjectPath");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be ClassNotFoundException", ClassNotFoundException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidFieldName()  {
-		Throwable fnfe = null;
-		try{
-			createAndSetupJFP(new InValidFieldNamePage(),"inValidFieldName");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be NoSuchFieldException", NoSuchFieldException.class, fnfe.getClass());
-	}
-	
-	@Test
-	public void testInValidHow()  {
-		Throwable fnfe = null;
-		try{
-			createAndSetupJFP(new InValidHowPage(),"inValidHow");
-		} catch (RuntimeException e) {
-			fnfe = e.getCause();
-		}
-		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
-	}
 	
 	@Test
 	public void testInValidJsonWrongClassName() {
@@ -116,7 +78,7 @@ public class JsonFileProcessorTest {
 	private void jsonStructureCheck(TestPage page, String attribute) {
 		Throwable fnfe = null;
 		try{
-			createAndSetupJFP(page,"inValidFileStructure");
+			createAndSetupFileProcessor(page,"inValidFileStructure");
 		} catch (RuntimeException e) {
 			fnfe = e.getCause();
 		}
@@ -125,20 +87,7 @@ public class JsonFileProcessorTest {
 				attribute + " attribute is missing or misspelled.", fnfe.getMessage());
 	}
 	
-	private Field createAndSetupJFP(TestPage page, String fieldName) {
-		try {
-			JsonFileProcessor jfp = new JsonFileProcessor();
-			Field field = page.getClass().getField(fieldName);
-			jfp.populateData(field);
-			return field;
-		} catch (Exception e) {
-			throw new RuntimeException(e.getCause());
-		}		
-	}
-	
-	
-	public interface TestPage{}	
-	
+		
 	@JsonFile(filePath = "src/test/resources/json/ValidFilePathData.json")
 	public class ValidFilePathPage implements TestPage{		
 		@FindByJson
