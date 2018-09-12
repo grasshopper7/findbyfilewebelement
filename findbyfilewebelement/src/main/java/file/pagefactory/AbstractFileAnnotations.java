@@ -22,6 +22,8 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	public abstract String getFieldAnnotationName();
 	
 	public abstract String getFileAnnotationName();
+		
+	protected abstract void assertValidAnnotations();
 
 	public By buildBy(boolean fieldAnnotationExists) {
 		assertValidAnnotations();

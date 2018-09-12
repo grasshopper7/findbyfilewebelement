@@ -54,4 +54,5 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 	public static String getFindByAnnotationFullName() {
 		return FindByProperties.class.getName();
 	}
+
 }
