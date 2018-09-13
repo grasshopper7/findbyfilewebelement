@@ -1,20 +1,17 @@
 package file.pagefactory.properties;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 import file.pagefactory.FieldByCache;
 import file.pagefactory.TestPage;
-import file.pagefactory.properties.FindByProperties;
-import file.pagefactory.properties.PropertiesFile;
-import file.pagefactory.properties.PropertiesFileProcessor;
 
 public class PropertiesFileProcessorMultiplePageTest {
 

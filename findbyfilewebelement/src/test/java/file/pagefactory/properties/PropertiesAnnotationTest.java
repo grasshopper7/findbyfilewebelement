@@ -1,8 +1,11 @@
 package file.pagefactory.properties;
 
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 

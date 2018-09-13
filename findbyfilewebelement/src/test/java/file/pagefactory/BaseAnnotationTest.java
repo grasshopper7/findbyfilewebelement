@@ -47,8 +47,8 @@ public abstract class  BaseAnnotationTest {
 	
 	@Test
 	public void testValidAnnotations()  { 
-		Field elem1 = createValidField();
-		AbstractFileAnnotations afa = createFileAnnotation(elem1);
+		Field field = createValidField();
+		AbstractFileAnnotations afa = createFileAnnotation(field);
 		try {
 			afa.assertValidAnnotations();
 		} catch (Exception e) {

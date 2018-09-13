@@ -28,7 +28,7 @@ public class FileElementLocatorFactoryTest {
 		FileElementLocatorFactory felf = new FileElementLocatorFactory(sc, fp);
 		ElementLocator del = felf.createLocator(f);
 		
-		assertEquals("Object returned should be of org.openqa.selenium.support.pagefactory.DefaultElementLocator class", 
+		assertEquals("Object returned should be of " + DefaultElementLocator.class.getName() + " class.", 
 				DefaultElementLocator.class, del.getClass());
 	}
 

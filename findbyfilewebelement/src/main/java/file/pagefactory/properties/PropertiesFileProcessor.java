@@ -24,15 +24,6 @@ public class PropertiesFileProcessor implements FileProcessor {
 		path = propsFile.filePath();
 		delimiter = propsFile.delimiter();
 	}
-
-	/*@Override
-	public  void checkAndCallParseDataSource(Field field) {
-		System.out.println(Thread.currentThread().getId() + "---" + "Check data In here");
-		// If data is got from previous parsing then return.
-		if (FieldByCache.doesByExistForField(field))
-			return;
-		parseDataSource();		
-	}*/
 	
 	@Override
 	public void parseDataSource() {
