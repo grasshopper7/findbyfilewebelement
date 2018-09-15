@@ -52,6 +52,11 @@ public class PropertiesFileProcessorTest extends BaseFileProcessorTest {
 		return new InValidHowPage();
 	}
 	
+	@Override
+	public TestPage createInValidMissingFileAnnotationPage() {
+		return new InValidMissingFileAnnotationPage();
+	}
+	
 	
 	//Figure out which delimiters work...
 	@Test
@@ -129,5 +134,10 @@ public class PropertiesFileProcessorTest extends BaseFileProcessorTest {
 	public class InValidHowPage implements TestPage{
 		@FindByProperties
 		public WebElement inValidHow;
+	}
+	
+	public class InValidMissingFileAnnotationPage implements TestPage{
+		@FindByProperties
+		public WebElement inValidMissingFileAnnotation;
 	}
 }

@@ -49,6 +49,11 @@ public class JsonFileProcessorTest extends BaseFileProcessorTest {
 		return new InValidHowPage();
 	}
 	
+	@Override
+	public TestPage createInValidMissingFileAnnotationPage() {
+		return new InValidMissingFileAnnotationPage();
+	}
+	
 	
 	@Test
 	public void testInValidJsonWrongClassName() {
@@ -146,6 +151,11 @@ public class JsonFileProcessorTest extends BaseFileProcessorTest {
 	public class InValidJsonWrongFieldByUsingPage implements TestPage{
 		@FindByJson
 		public WebElement inValidFileStructure;
+	}
+	
+	public class InValidMissingFileAnnotationPage implements TestPage{
+		@FindByJson
+		public WebElement inValidMissingFileAnnotation;
 	}
 }
 

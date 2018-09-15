@@ -26,6 +26,8 @@ public abstract class BaseFileProcessorTest {
 	
 	public abstract TestPage createInValidHowPage();
 	
+	public abstract TestPage createInValidMissingFileAnnotationPage();
+	
 	
 	@Test
 	public void testRequisiteAnnotation() {
@@ -83,6 +85,19 @@ public abstract class BaseFileProcessorTest {
 			fnfe = e.getCause();
 		}
 		assertEquals("Exception thrown needs to be IllegalArgumentException", IllegalArgumentException.class, fnfe.getClass());
+	}
+	
+	@Test
+	public void testInValidMissingFileAnnotation() throws NoSuchFieldException {
+		Throwable fnfe = null;
+		try{
+			FileProcessor fp = createFileProcessor();
+			Field field = (createInValidMissingFileAnnotationPage()).getClass().getField("inValidMissingFileAnnotation");
+			fp.dataSourceDetails(field);
+		} catch (NullPointerException e) {
+			fnfe = e;
+		}
+		assertEquals("Exception thrown needs to be NullPointerException", NullPointerException.class, fnfe.getClass());
 	}
 	
 	protected Field createAndSetupFileProcessor(TestPage page, String fieldName) {

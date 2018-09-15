@@ -51,6 +51,11 @@ public class ExcelFileProcessorTest extends BaseFileProcessorTest {
 		return new InValidHowPage();
 	}
 	
+	@Override
+	public TestPage createInValidMissingFileAnnotationPage() {
+		return new InValidMissingFileAnnotationPage();
+	}
+	
 	@Test
 	public void testValidFilePathCustomSheet() {
 		Field field = createAndSetupEFP(new ValidFilePathCustomSheetPage(),"validFilePathCustomSheet");				
@@ -166,6 +171,11 @@ public class ExcelFileProcessorTest extends BaseFileProcessorTest {
 	public class MissingUsingPage implements TestPage{
 		@FindByExcel
 		public WebElement missingUsing;
+	}
+	
+	public class InValidMissingFileAnnotationPage implements TestPage{
+		@FindByExcel
+		public WebElement inValidMissingFileAnnotation;
 	}
 }
 
