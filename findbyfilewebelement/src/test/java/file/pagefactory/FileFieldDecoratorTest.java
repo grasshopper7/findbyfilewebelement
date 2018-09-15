@@ -1,5 +1,6 @@
 package file.pagefactory;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
@@ -17,12 +18,21 @@ import file.pagefactory.properties.FindByProperties;
 public class FileFieldDecoratorTest {
 	
 	@Test
+	public void testWebElementListWOFindAnnotation() throws NoSuchFieldException, SecurityException {
+		
+		PageObject po =  new PageObject();
+		FileFieldDecorator ffd = new FileFieldDecorator(Mockito.mock(FileElementLocatorFactory.class));			
+		Field field = po.getClass().getDeclaredField("element5");		
+		assertFalse("List of WebElement with without any Find annotation should return false.", ffd.isDecoratableList(field));	
+	}
+	
+	@Test
 	public void testFindByList() throws NoSuchFieldException, SecurityException {
 		
 		PageObject po =  new PageObject();
 		FileFieldDecorator ffd = new FileFieldDecorator(Mockito.mock(FileElementLocatorFactory.class));		
-		Field field = po.getClass().getDeclaredField("element1");		
-		assertTrue("List of WebElement with FindBy annotation should return true.", ffd.isDecoratableList(field));
+		Field field = po.getClass().getDeclaredField("list");		
+		assertFalse("List of other object should return false.", ffd.isDecoratableList(field));
 	}
 	
 	@Test
@@ -64,5 +74,9 @@ public class FileFieldDecoratorTest {
 		
 		@FindByExcel
 		private List<WebElement> element4;
+		
+		private List<WebElement> element5;
+		
+		private List<String> list;
 	}
 }
