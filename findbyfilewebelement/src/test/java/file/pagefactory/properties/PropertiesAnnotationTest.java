@@ -1,11 +1,9 @@
 package file.pagefactory.properties;
 
-import static org.junit.Assert.fail;
-
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -39,7 +37,7 @@ public class PropertiesAnnotationTest extends BaseAnnotationTest{
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Class getFileAnnotationsClass() {
+	public Class getFindFieldAnnotationsClass() {
 		return FindByProperties.class;
 	}
 
@@ -76,6 +74,8 @@ public class PropertiesAnnotationTest extends BaseAnnotationTest{
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByProperties
+		private List<WebElement> element3;
 		@FindByProperties
 		private WebElement elementMissData;
 	}

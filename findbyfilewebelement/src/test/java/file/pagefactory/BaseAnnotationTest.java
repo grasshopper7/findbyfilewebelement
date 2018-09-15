@@ -26,7 +26,7 @@ public abstract class  BaseAnnotationTest {
 	public abstract AbstractFileAnnotations createFileAnnotation(Field field);
 	
 	@SuppressWarnings("rawtypes")
-	public abstract Class getFileAnnotationsClass();
+	public abstract Class getFindFieldAnnotationsClass();
 	
 	
 	
@@ -44,10 +44,22 @@ public abstract class  BaseAnnotationTest {
 	}
 	
 	
-	
+	//Valid case all annotations available
 	@Test
 	public void testValidAnnotations()  { 
 		Field field = createValidField();
+		AbstractFileAnnotations afa = createFileAnnotation(field);
+		try {
+			afa.assertValidAnnotations();
+		} catch (Exception e) {
+			fail("No Exception should be thrown.");
+		}
+	}
+	
+	//Valid case all annotations available for List<WebElement> field
+	@Test
+	public void testValidAnnotationsListWebElement()  { 
+		Field field = createField(createValidPageObject(), "element3");
 		AbstractFileAnnotations afa = createFileAnnotation(field);
 		try {
 			afa.assertValidAnnotations();
@@ -78,7 +90,7 @@ public abstract class  BaseAnnotationTest {
 	protected void checkMissingBothAnnotations(TestPage po)  {
 		Field elem1 = createField(po, "element1");
 		Field spyElem1 = Mockito.spy(elem1);
-		Mockito.when(spyElem1.getAnnotation(getFileAnnotationsClass())).thenReturn(null);
+		Mockito.when(spyElem1.getAnnotation(getFindFieldAnnotationsClass())).thenReturn(null);
 		AbstractFileAnnotations afa = createFileAnnotation(elem1);
 		checkIllegalArgException(afa);
 	}
@@ -101,11 +113,13 @@ public abstract class  BaseAnnotationTest {
 		checkFileAnnotationIllegalAdditionalExcep(afa);
 	}
 	
+	//Check if field does not have any FindByFile or FindBy(s,all) annotation.
+	//Should pass as it can be another object declaration in pageobject.
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testMissingFindByFileAnnotation()  {
 		Field spyElem = createValidSpyField();
-		Mockito.when(spyElem.getAnnotation(getFileAnnotationsClass())).thenReturn(null);
+		Mockito.when(spyElem.getAnnotation(getFindFieldAnnotationsClass())).thenReturn(null);
 		AbstractFileAnnotations afa = createFileAnnotation(spyElem);		
 		try {
 			afa.assertValidAnnotations();
@@ -130,6 +144,7 @@ public abstract class  BaseAnnotationTest {
 		}
 	}
 	
+	//Check if field contains additional FindBy annotation along with FindByFile Annotation
 	@Test
 	public void testAdditionalFindByAnnotation()  {		
 		Consumer<Field> cons = f -> {
@@ -138,6 +153,7 @@ public abstract class  BaseAnnotationTest {
 		checkAdditionalFieldIllegalArgExcep(cons);
 	}
 	
+	//Check if field contains additional FindBys annotation along with FindByFile Annotation
 	@Test
 	public void testAdditionalFindBysAnnotation()  {
 		Consumer<Field> cons = f -> {
@@ -146,6 +162,7 @@ public abstract class  BaseAnnotationTest {
 		checkAdditionalFieldIllegalArgExcep(cons);
 	}
 	
+	//Check if field contains additional FindAll annotation along with FindByFile Annotation
 	@Test
 	public void testAdditionalFindAllAnnotation()  {
 		Consumer<Field> cons = f -> {
@@ -154,6 +171,7 @@ public abstract class  BaseAnnotationTest {
 		checkAdditionalFieldIllegalArgExcep(cons);
 	}
 	
+	//Check if field contains additional FindBy and FindAll annotation along with FindByFile Annotation
 	@Test
 	public void testTwoAdditionalFindAnnotations()  {
 		Consumer<Field> cons = f -> {
@@ -163,6 +181,7 @@ public abstract class  BaseAnnotationTest {
 		checkAdditionalFieldIllegalArgExcep(cons);
 	}
 	
+	//Check if field contains additional FindBy, FindBys, FindAll annotation along with FindByFile Annotation
 	@Test
 	public void testAllAdditionalFindAnnotations()  {
 		Consumer<Field> cons = f -> {
@@ -173,17 +192,21 @@ public abstract class  BaseAnnotationTest {
 		checkAdditionalFieldIllegalArgExcep(cons);
 	}
 	
+	//Checks buildBy(boolean) in AbstractFileAnnotations returns cached value if field exists in cache.
 	@Test
-	public void testBuildByFindByPropertiesAnnotation()  {
+	public void testBuildByFindByFileAnnotation()  {
 		Field field = createField(createValidPageObject(), "element1");
 		AbstractFileAnnotations afa = createFileAnnotation(field);
+		//This By is setup with 'fake' id so it overwrites value if one exists in cache.
 		By exBy = By.id("exampleId");
-		FieldByCache.addDetail(field, exBy);	
+		FieldByCache.addDetail(field, exBy);
 		assertEquals("By value not returned correctly.", exBy, afa.buildBy());
 	}
 	
+	//Checks buildBy(boolean) in AbstractFileAnnotations throws exception if field is not found in
+	// file mentioned in annotation.
 	@Test
-	public void testBuildByMissingFieldFindByPropertiesAnnotation()  {
+	public void testBuildByMissingFieldFindByFileAnnotation()  {
 		Field field = createField(createValidPageObject(), "elementMissData");
 		AbstractFileAnnotations afa = createFileAnnotation(field);
 		try {
@@ -198,6 +221,7 @@ public abstract class  BaseAnnotationTest {
 		}
 	}
 	
+	//Checks buildBy(boolean) in AbstractFileAnnotations returns normal value for FindBy annotation.
 	@Test
 	public void testBuildByFindByAnnotation()  {
 		Field field = createField(createValidPageObject(), "element2");

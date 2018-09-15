@@ -1,6 +1,7 @@
 package file.pagefactory.json;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
@@ -36,7 +37,7 @@ public class JsonAnnotationTest extends BaseAnnotationTest {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Class getFileAnnotationsClass() {
+	public Class getFindFieldAnnotationsClass() {
 		return FindByJson.class;
 	}
 
@@ -73,6 +74,8 @@ public class JsonAnnotationTest extends BaseAnnotationTest {
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByJson
+		private List<WebElement> element3;
 		@FindByJson
 		private WebElement elementMissData;
 	}

@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import file.pagefactory.AbstractFileAnnotations;
 import file.pagefactory.BaseAnnotationTest;
 import file.pagefactory.TestPage;
-import file.pagefactory.excel.ExcelFile;
 import file.pagefactory.json.JsonFile;
 import file.pagefactory.properties.PropertiesFile;
 
@@ -37,7 +36,7 @@ public class ExcelAnnotationTest extends BaseAnnotationTest {
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Class getFileAnnotationsClass() {
+	public Class getFindFieldAnnotationsClass() {
 		return FindByExcel.class;
 	}
 
@@ -74,6 +73,8 @@ public class ExcelAnnotationTest extends BaseAnnotationTest {
 		private WebElement element1;
 		@FindBy(id="exampleId")
 		private WebElement element2;
+		@FindByExcel
+		private WebElement element3;
 		@FindByExcel
 		private WebElement elementMissData;
 	}
