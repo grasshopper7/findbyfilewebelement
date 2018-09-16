@@ -141,7 +141,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	
 
 	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonOneData.json")
-	public class PageObjectJsonFirst implements TestPage {
+	public static class PageObjectJsonFirst implements TestPage {
 		@FindByJson
 		private WebElement element1;
 		@FindByJson
@@ -149,7 +149,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonTwoData.json")
-	public class PageObjectJsonSecond implements TestPage {
+	public static class PageObjectJsonSecond implements TestPage {
 		@FindByJson
 		private WebElement element3;
 		@FindByJson
@@ -157,7 +157,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonTwoData.json")
-	public class PageObjectJsonThird implements TestPage {
+	public static class PageObjectJsonThird implements TestPage {
 		@FindByJson
 		private WebElement element5;
 		@FindByJson
@@ -165,7 +165,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 	
 	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFourData.json")
-	public class PageObjectJsonFourth implements TestPage {
+	public static class PageObjectJsonFourth implements TestPage {
 		@FindByJson
 		private WebElement element7;
 		@FindByJson
@@ -173,7 +173,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@JsonFile(filePath = "src/test/resources/json/ThreadPOJsonFiveData.json")
-	public class PageObjectJsonFifth implements TestPage {
+	public static class PageObjectJsonFifth implements TestPage {
 		@FindByJson
 		private WebElement element9;
 		@FindByJson

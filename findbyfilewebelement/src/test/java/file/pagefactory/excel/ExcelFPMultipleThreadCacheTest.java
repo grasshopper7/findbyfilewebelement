@@ -141,7 +141,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	
 
 	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelOneData.xlsx")
-	public class PageObjectExcelFirst implements TestPage {
+	public static class PageObjectExcelFirst implements TestPage {
 		@FindByExcel
 		private WebElement element1;
 		@FindByExcel
@@ -149,7 +149,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelTwoData.xlsx")
-	public class PageObjectExcelSecond implements TestPage {
+	public static class PageObjectExcelSecond implements TestPage {
 		@FindByExcel
 		private WebElement element3;
 		@FindByExcel
@@ -157,7 +157,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelTwoData.xlsx")
-	public class PageObjectExcelThird implements TestPage {
+	public static class PageObjectExcelThird implements TestPage {
 		@FindByExcel
 		private WebElement element5;
 		@FindByExcel
@@ -165,7 +165,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 	
 	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFourData.xlsx")
-	public class PageObjectExcelFourth implements TestPage {
+	public static class PageObjectExcelFourth implements TestPage {
 		@FindByExcel
 		private WebElement element7;
 		@FindByExcel
@@ -173,7 +173,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@ExcelFile(filePath = "src/test/resources/excel/ThreadPOExcelFiveData.xlsx")
-	public class PageObjectExcelFifth implements TestPage {
+	public static class PageObjectExcelFifth implements TestPage {
 		@FindByExcel
 		private WebElement element9;
 		@FindByExcel

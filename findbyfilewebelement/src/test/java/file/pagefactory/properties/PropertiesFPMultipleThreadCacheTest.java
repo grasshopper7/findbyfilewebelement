@@ -1,5 +1,7 @@
 package file.pagefactory.properties;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebElement;
@@ -142,43 +144,43 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	
 
 	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesOneData.properties")
-	public class PageObjectPropertiesFirst implements TestPage {
+	public static class PageObjectPropertiesFirst implements TestPage {
 		@FindByProperties
 		private WebElement element1;
 		@FindByProperties
-		private WebElement element2;
+		private List<WebElement> element2;
 	}
 
 	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesTwoData.properties")
-	public class PageObjectPropertiesSecond implements TestPage {
+	public static class PageObjectPropertiesSecond implements TestPage {
 		@FindByProperties
 		private WebElement element3;
 		@FindByProperties
-		private WebElement element4;
+		private List<WebElement> element4;
 	}
 
 	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesTwoData.properties")
-	public class PageObjectPropertiesThird implements TestPage {
+	public static class PageObjectPropertiesThird implements TestPage {
 		@FindByProperties
 		private WebElement element5;
 		@FindByProperties
-		private WebElement element6;
+		private List<WebElement> element6;
 	}
 	
 	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFourData.properties")
-	public class PageObjectPropertiesFourth implements TestPage {
+	public static class PageObjectPropertiesFourth implements TestPage {
 		@FindByProperties
 		private WebElement element7;
 		@FindByProperties
-		private WebElement element8;
+		private List<WebElement> element8;
 	}
 
 	@PropertiesFile(filePath = "src/test/resources/properties/ThreadPOPropertiesFiveData.properties")
-	public class PageObjectPropertiesFifth implements TestPage {
+	public static class PageObjectPropertiesFifth implements TestPage {
 		@FindByProperties
 		private WebElement element9;
 		@FindByProperties
-		private WebElement element10;
+		private List<WebElement> element10;
 	}
 
 }

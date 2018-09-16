@@ -7,7 +7,9 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Before;
 import org.mockito.Mockito;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class BaseMultipleThreadCacheTest {
@@ -33,7 +35,6 @@ public class BaseMultipleThreadCacheTest {
 
 	@Before
 	public void setup() {
-		System.out.println("--------");
 		FieldByCache.removeDetails();
 	}
 	
@@ -50,12 +51,12 @@ public class BaseMultipleThreadCacheTest {
 		threads[0].start();		
 		for(int i = 1;i < threads.length;i++) {
 			if(differentTime)
-				Thread.sleep(2000);
+				Thread.sleep(4000);
 			threads[i].start();
 		}
 		
 		for(int i = 0;i < threads.length;i++) {
-			threads[i].join(5000);
+			threads[i].join(10000);
 		}
 		
 		for(int i = 0;i < threads.length;i++) {
@@ -84,15 +85,28 @@ public class BaseMultipleThreadCacheTest {
 					@SuppressWarnings("rawtypes")
 					Class annot = Class.forName(findby[i]);
 					for (Field field : page.getClass().getDeclaredFields()) {
+						//Made inner class TestPage implementations static to avoid the this$0 reference
+						//Inner class fields are private. Can make them public to avoid this.
+						field.setAccessible(true);
+						//One can add FindBys and FindAll also if added in PageObject - normal fields
+						if(field.getAnnotation(annot) == null && field.getAnnotation(FindBy.class) == null)
+							Assert.assertNull(field.getName() + " of class " + page.getClass() + " should not be initialized.", field.get(page));
+						//FindBy annotated field should be initialized,One can also add FindBys and FindAll
+						if(field.getAnnotation(FindBy.class) != null)
+							Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
+						//FindByFile annotated field details will be cached and not null.
 						if (field.getAnnotation(annot) != null) {
 							count++;
-							Assert.assertTrue(field.getName() + " of class " + page.getClass() + " is not present in cache",
+							Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
+							Assert.assertTrue(field.getName() + " of class " + page.getClass() + " is not present in cache.",
 									FieldByCache.doesByExistForField(field));
+							Assert.assertEquals("By value stored in cache for element " + field.getName() +" of class " + 
+									page.getClass() + " is not correct.", By.id(field.getName()), FieldByCache.getByForField(field));
 						}
 					}
 				}
 			}
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		Assert.assertEquals("Locator Data has not been parsed properly.", count, FieldByCache.size());
@@ -104,7 +118,8 @@ public class BaseMultipleThreadCacheTest {
 			public void run() {
 				WebDriver driver = Mockito.mock(WebDriver.class);
 				FileElementLocatorFactory felf = new FileElementLocatorFactory(driver, pfp);
-				PageFactory.initElements(felf, testPage);
+				FileFieldDecorator ffd = new FileFieldDecorator(felf);
+				PageFactory.initElements(ffd, testPage);
 			}
 		});
 	}

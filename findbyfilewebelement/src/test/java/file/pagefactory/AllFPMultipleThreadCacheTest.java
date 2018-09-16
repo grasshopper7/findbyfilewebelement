@@ -1,8 +1,11 @@
 package file.pagefactory;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import file.pagefactory.excel.ExcelAnnotation;
 import file.pagefactory.excel.ExcelFile;
@@ -27,7 +30,6 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 			throws NoSuchFieldException, SecurityException, InterruptedException {
 		
 		executeAllFPThreads(false);
-		System.out.println("------------------");
 	}
 	
 	//Three threads of different file processor type at different time updating 
@@ -37,10 +39,9 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 			throws NoSuchFieldException, SecurityException, InterruptedException {
 	
 		executeAllFPThreads(true);
-		System.out.println("------------------");
 	}
 
-	
+	 
 	private void executeAllFPThreads(boolean time) throws InterruptedException {
 		
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
@@ -60,26 +61,38 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	}
 
 	@PropertiesFile(filePath = "src/test/resources/properties/MultipleThreadPOPropertiesData.properties")
-	public class PageObjectPropertiesFirst implements TestPage {
+	public static class PageObjectPropertiesFirst implements TestPage {
 		@FindByProperties
 		private WebElement element1;
 		@FindByProperties
-		private WebElement element2;
+		private List<WebElement> element2;
+		@FindBy
+		private WebElement element3;
+		private Object element4;
+		private List<Object> element5;
 	}
 
 	@JsonFile(filePath = "src/test/resources/json/MultipleThreadPOJsonData.json")
-	public class PageObjectJsonFirst implements TestPage {
+	public static class PageObjectJsonFirst implements TestPage {
 		@FindByJson
 		private WebElement element1;
 		@FindByJson
-		private WebElement element2;
+		private List<WebElement> element2;
+		@FindBy
+		private WebElement element3;
+		private Object element4;
+		private List<Object> element5;
 	}
 	
 	@ExcelFile(filePath = "src/test/resources/excel/MultipleThreadPOExcelData.xlsx")
-	public class PageObjectExcelFirst implements TestPage {
+	public static class PageObjectExcelFirst implements TestPage {
 		@FindByExcel
 		private WebElement element1;
 		@FindByExcel
-		private WebElement element2;
+		private List<WebElement> element2;
+		@FindBy
+		private WebElement element3;
+		private Object element4;
+		private List<Object> element5;
 	}
 }
