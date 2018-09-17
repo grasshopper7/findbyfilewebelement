@@ -1,6 +1,6 @@
 [
 	{
-		"className" : "file.pagefactory.AllFPMultipleThreadCacheTest$PageObjectJsonFirst",
+		"className" : "file.pagefactory.CommonValidPageObjects$PageObjectJson",
 		"fieldBy" : 
 			[
 				{

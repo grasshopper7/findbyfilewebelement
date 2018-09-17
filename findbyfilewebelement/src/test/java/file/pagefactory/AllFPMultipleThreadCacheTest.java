@@ -49,8 +49,9 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		PropertiesFileProcessor pfp3 = Mockito.spy(PropertiesFileProcessor.class);
 
 		FileProcessor[] fp = { pfp1, pfp2, pfp3 };
-		TestPage[] tp = { new PageObjectExcelFirst(), new PageObjectJsonFirst(),
-				new PageObjectPropertiesFirst()};
+		TestPage[] tp = { new CommonValidPageObjects.PageObjectExcel(), 
+				new CommonValidPageObjects.PageObjectJson(),
+				new CommonValidPageObjects.PageObjectProperties()};
 		Integer[] checkCalls = { 1, 1, 1 };
 		Integer[] parseCalls = { 1, 1, 1 };
 		String[] annotations = { ExcelAnnotation.getFindByAnnotationFullName(),
@@ -60,7 +61,7 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		createThreadsAssertCache(fp, tp, true, time, checkCalls, parseCalls, annotations);
 	}
 
-	@PropertiesFile(filePath = "src/test/resources/properties/MultipleThreadPOPropertiesData.properties")
+/*	@PropertiesFile(filePath = "src/test/resources/properties/MultipleThreadPOPropertiesData.properties")
 	public static class PageObjectPropertiesFirst implements TestPage {
 		@FindByProperties
 		private WebElement element1;
@@ -94,5 +95,5 @@ public class AllFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 		private WebElement element3;
 		private Object element4;
 		private List<Object> element5;
-	}
+	}*/
 }

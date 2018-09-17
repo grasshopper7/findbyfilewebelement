@@ -29,8 +29,10 @@ public class BaseMultipleThreadCacheTest {
 	 * - Three threads of different file processor type at different time updating different page object data.
 	 * 
 	 * -- OTHER TEST CASE
-	 * - Three threads of different file processor type at almost same time updating different page object data with some standard @FindBy fields.
-	 * - Two threads. Two PageObject. Two data file. One file has fields of one PO and some of second PO. Second file has other fields of second PO.
+	 * - Three threads of different file processor type at almost same time updating different page object data with standard @FindBy fields.(COMP)
+	 * - Two threads. Two PageObject. Two data file. One file has fields of one PO and some of second PO. Second file has other fields of second PO.(?)
+	 * - Valid PageFactory initialization without mock test.(COMP)
+	 * - Valid By options test
 	 */
 
 	@Before
@@ -38,7 +40,7 @@ public class BaseMultipleThreadCacheTest {
 		FieldByCache.removeDetails();
 	}
 	
-	public void createThreadsAssertCache(FileProcessor[] fp, TestPage[] pages, boolean differentPageObject,
+	protected void createThreadsAssertCache(FileProcessor[] fp, TestPage[] pages, boolean differentPageObject,
 			boolean differentTime,Integer[] checkCalls, Integer[] parseCalls, String[] findByAnnotation) 
 					throws InterruptedException {
 		
@@ -73,8 +75,7 @@ public class BaseMultipleThreadCacheTest {
 
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void checkFieldDataInCache(TestPage[] pages, String[] findby) {
+	protected void checkFieldDataInCache(TestPage[] pages, String[] findby) {
 		int count = 0;
 		@SuppressWarnings("rawtypes")
 		Set<Class> classDetails = new HashSet<>();
@@ -84,26 +85,7 @@ public class BaseMultipleThreadCacheTest {
 				if(classDetails.add(page.getClass())) {
 					@SuppressWarnings("rawtypes")
 					Class annot = Class.forName(findby[i]);
-					for (Field field : page.getClass().getDeclaredFields()) {
-						//Made inner class TestPage implementations static to avoid the this$0 reference
-						//Inner class fields are private. Can make them public to avoid this.
-						field.setAccessible(true);
-						//One can add FindBys and FindAll also if added in PageObject - normal fields
-						if(field.getAnnotation(annot) == null && field.getAnnotation(FindBy.class) == null)
-							Assert.assertNull(field.getName() + " of class " + page.getClass() + " should not be initialized.", field.get(page));
-						//FindBy annotated field should be initialized,One can also add FindBys and FindAll
-						if(field.getAnnotation(FindBy.class) != null)
-							Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
-						//FindByFile annotated field details will be cached and not null.
-						if (field.getAnnotation(annot) != null) {
-							count++;
-							Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
-							Assert.assertTrue(field.getName() + " of class " + page.getClass() + " is not present in cache.",
-									FieldByCache.doesByExistForField(field));
-							Assert.assertEquals("By value stored in cache for element " + field.getName() +" of class " + 
-									page.getClass() + " is not correct.", By.id(field.getName()), FieldByCache.getByForField(field));
-						}
-					}
+					count = count + checkFieldData(page, annot);
 				}
 			}
 		} catch (Exception e) {
@@ -112,15 +94,45 @@ public class BaseMultipleThreadCacheTest {
 		Assert.assertEquals("Locator Data has not been parsed properly.", count, FieldByCache.size());
 	}
 	
-	private Thread fileThread(FileProcessor pfp, TestPage testPage) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	protected int checkFieldData(TestPage page, Class annot ) throws IllegalArgumentException, IllegalAccessException {
+		int count= 0;
+		for (Field field : page.getClass().getDeclaredFields()) {
+			//Made inner class TestPage implementations static to avoid the this$0 reference
+			//Inner class fields are private. Can make them public to avoid this.
+			field.setAccessible(true);
+			//One can add FindBys and FindAll also if added in PageObject - normal fields
+			if(field.getAnnotation(annot) == null && field.getAnnotation(FindBy.class) == null)
+				Assert.assertNull(field.getName() + " of class " + page.getClass() + " should not be initialized.", field.get(page));
+			//FindBy annotated field should be initialized,One can also add FindBys and FindAll
+			if(field.getAnnotation(FindBy.class) != null)
+				Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
+			//FindByFile annotated field details will be cached and not null.
+			if (field.getAnnotation(annot) != null) {
+				count++;
+				Assert.assertNotNull(field.getName() + " of class " + page.getClass() + " is not initialized.", field.get(page));
+				Assert.assertTrue(field.getName() + " of class " + page.getClass() + " is not present in cache.",
+						FieldByCache.doesByExistForField(field));
+				Assert.assertEquals("By value stored in cache for element " + field.getName() +" of class " + 
+						page.getClass() + " is not correct.", By.id(field.getName()), FieldByCache.getByForField(field));
+			}
+		}
+		return count;
+	}
+	
+	protected Thread fileThread(FileProcessor pfp, TestPage testPage) {
 		return new Thread(new Runnable() {
 			@Override
 			public void run() {
-				WebDriver driver = Mockito.mock(WebDriver.class);
-				FileElementLocatorFactory felf = new FileElementLocatorFactory(driver, pfp);
-				FileFieldDecorator ffd = new FileFieldDecorator(felf);
-				PageFactory.initElements(ffd, testPage);
+				initializePage(pfp, testPage);
 			}
 		});
+	}
+	
+	protected void initializePage(FileProcessor pfp, TestPage testPage) {
+		WebDriver driver = Mockito.mock(WebDriver.class);
+		FileElementLocatorFactory felf = new FileElementLocatorFactory(driver, pfp);
+		FileFieldDecorator ffd = new FileFieldDecorator(felf);
+		PageFactory.initElements(ffd, testPage);
 	}
 }
