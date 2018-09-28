@@ -26,7 +26,7 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	protected abstract void assertValidAnnotations();
 
 	public By buildBy(boolean fieldAnnotationExists) {
-		assertValidAnnotations();
+		//assertValidAnnotations();
 		if (fieldAnnotationExists) {
 			if (!FieldByCache.doesByExistForField(getField())) {
 				synchronized (obj) {

@@ -20,16 +20,18 @@ public class JsonFileProcessorMultiplePageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		FieldByCache.removeDetails();
 		JsonFileProcessor efp = new JsonFileProcessor();
 		FirstMultiplePage fmp = new FirstMultiplePage();
 		Field field = fmp.getClass().getField("secondField");
-		efp.populateData(field);		
-	}
-		
-	@Test
-	public void testCacheSize() {
+		efp.populateData(field);	
 		assertEquals("Number of fields in cache should be 6.", 6, FieldByCache.size());
 	}
+		
+	/*@Test
+	public void testCacheSize() {
+		assertEquals("Number of fields in cache should be 6.", 6, FieldByCache.size());
+	}*/
 	
 	@Test
 	public void testTogetherSamePOFields() throws Exception {

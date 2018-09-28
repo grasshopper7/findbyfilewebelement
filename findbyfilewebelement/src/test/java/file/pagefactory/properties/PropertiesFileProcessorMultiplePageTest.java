@@ -17,16 +17,18 @@ public class PropertiesFileProcessorMultiplePageTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		FieldByCache.removeDetails();
 		PropertiesFileProcessor efp = new PropertiesFileProcessor();
 		FirstMultiplePage fmp = new FirstMultiplePage();
 		Field field = fmp.getClass().getField("secondField");
 		efp.populateData(field);		
-	}
-		
-	@Test
-	public void testCacheSize() {
 		assertEquals("Number of fields in cache should be 6.", 6, FieldByCache.size());
 	}
+		
+	/*@Test
+	public void testCacheSize() {
+		assertEquals("Number of fields in cache should be 6.", 6, FieldByCache.size());
+	}*/
 	
 	@Test
 	public void testConsecutiveSamePONameFilled() throws Exception {

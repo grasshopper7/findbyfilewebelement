@@ -50,7 +50,7 @@ public class ExcelFileProcessor implements FileProcessor {
 				fld = dataFormatter.formatCellValue(row.getCell(1));
 				how = dataFormatter.formatCellValue(row.getCell(2));
 				using = dataFormatter.formatCellValue(row.getCell(3));				
-				checkValues(fld, how, using);
+				checkValues(fld, how, using, i);
 
 				FieldByCache.addDetail(pkgCls.getDeclaredField(fld),
 						ByCreator.createBy(how.toUpperCase(), using));
@@ -61,13 +61,13 @@ public class ExcelFileProcessor implements FileProcessor {
 		}
 	}
 
-	private void checkValues(String fld, String how, String using) {
+	private void checkValues(String fld, String how, String using, int line) {
 		if(fld == null || fld.length() == 0)
-			throw new IllegalArgumentException("Field Name attribute data is missing.");
+			throw new IllegalArgumentException("Field Name attribute data is missing for line " + line + ".");
 		else if(how == null || how.length() == 0)
-			throw new IllegalArgumentException("How attribute data is missing.");
+			throw new IllegalArgumentException("How attribute data is missing for line " + line + ".");
 		else if(using == null || using.length() == 0)
-			throw new IllegalArgumentException("Using attribute data is missing.");
+			throw new IllegalArgumentException("Using attribute data is missing for line " + line + ".");
 	}
 
 	@Override

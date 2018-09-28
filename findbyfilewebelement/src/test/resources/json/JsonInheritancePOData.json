@@ -1,0 +1,18 @@
+[
+	{
+		"className" : "file.pagefactory.InheritedValidPageObjects$JsonInheritancePageObject",
+		"fieldBy" : 
+			[
+				{
+					"field" : "element1",
+					"how" : "ID",
+					"using" : "element1"
+				},
+				{
+					"field" : "element2",
+					"how" : "ID",
+					"using" : "element2"
+				}
+			]
+	}	
+]

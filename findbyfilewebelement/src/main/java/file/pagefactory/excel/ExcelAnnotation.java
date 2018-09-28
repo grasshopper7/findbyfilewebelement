@@ -18,6 +18,7 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 	}
 
 	public By buildBy() {
+		assertValidAnnotations();
 		return super.buildBy(getField().getAnnotation(FindByExcel.class) != null);
 	}
 
@@ -26,7 +27,7 @@ public class ExcelAnnotation extends AbstractFileAnnotations {
 		FindByExcel findExcel = getField().getAnnotation(FindByExcel.class);
 		ExcelFile excelFile = getField().getDeclaringClass().getAnnotation(ExcelFile.class);
 		
-		if(excelFile == null)
+		if(findExcel != null && excelFile == null)
 			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
 		
 		if(getField().getDeclaringClass().getAnnotation(JsonFile.class) != null || 

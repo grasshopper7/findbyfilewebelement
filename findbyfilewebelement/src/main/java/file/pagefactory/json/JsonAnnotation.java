@@ -18,6 +18,7 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 	}
 
 	public By buildBy() {
+		assertValidAnnotations();
 		return super.buildBy(getField().getAnnotation(FindByJson.class) != null);
 	}
 
@@ -25,7 +26,7 @@ public class JsonAnnotation extends AbstractFileAnnotations {
 		FindByJson findJson = getField().getAnnotation(FindByJson.class);
 		JsonFile jsonFile = getField().getDeclaringClass().getAnnotation(JsonFile.class);
 
-		if(jsonFile == null)
+		if(findJson != null && jsonFile == null)
 			throw new IllegalArgumentException("@" + getFileAnnotationName() + " annotation is missing on class level.");
 		
 		if(getField().getDeclaringClass().getAnnotation(ExcelFile.class) != null || 

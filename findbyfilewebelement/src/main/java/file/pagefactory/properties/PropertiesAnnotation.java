@@ -18,7 +18,7 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 	}
 
 	public By buildBy() {
-		System.out.println(Thread.currentThread().getId() + "---" + "PROPS ANNOT --- " + getField().getName());
+		assertValidAnnotations();
 		return super.buildBy(getField().getAnnotation(FindByProperties.class) != null);
 	}
 
@@ -27,7 +27,7 @@ public class PropertiesAnnotation extends AbstractFileAnnotations {
 		FindByProperties findProps = getField().getAnnotation(FindByProperties.class);
 		PropertiesFile propsFile = getField().getDeclaringClass().getAnnotation(PropertiesFile.class);
 		
-		if(propsFile == null)
+		if(findProps != null && propsFile == null)
 			throw new IllegalArgumentException("@"+getFileAnnotationName()+ " annotation is missing on class level.");
 		
 		if(getField().getDeclaringClass().getAnnotation(ExcelFile.class) != null || 

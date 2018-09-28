@@ -49,4 +49,12 @@ public class CommonValidPageObjects {
 		private Object element4;
 		private List<Object> element5;
 	}
+	
+	public static class PageObjectNormal implements TestPage {
+		@FindBy
+		private WebElement elementAA;
+		@FindBy
+		private List<WebElement> elementBB;
+		private Object elementCC;
+	}
 }
