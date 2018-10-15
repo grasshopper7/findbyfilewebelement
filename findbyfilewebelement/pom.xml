@@ -54,15 +54,18 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
 				<configuration>
-					<includes>
-						<include>file/pageobject/test/PropertiesElement.java</include>
-					</includes>
-					<systemProperties>
+					<!-- <includes>
+						<include>file/pagefactory/AllFPMultipleThreadCacheTest.java</include>
+						<include>file/pagefactory/excel/ExcelFPMultipleThreadCacheTest.java</include>
+						<include>file/pagefactory/json/JsonFPMultipleThreadCacheTest.java</include>
+						<include>file/pagefactory/properties/PropertiesFPMultipleThreadCacheTest.java</include>
+					</includes> -->
+					<!-- <systemProperties>
 						<property>
 							<name>webdriver.chrome.driver</name>
 							<value>E:\\Software Testing\\Selenium\\Jars\\chromedriver.exe</value>
 						</property>
-					</systemProperties>
+					</systemProperties> -->
 				</configuration>
 			</plugin>
 		</plugins>

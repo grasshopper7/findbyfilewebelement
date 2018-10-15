@@ -13,8 +13,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of properties file processor at same time updating same
 	// page object data	
 	@Test()
-	public void twoSameTimeJsonFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimeJsonFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -37,8 +36,7 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Json file processor at different time updating same
 	// page object data
 	@Test()
-	public void twoDifferentTimeJsonFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimeJsonFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -61,10 +59,8 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Json file processor at almost same time updating different
 	// page object data from same file
 	@Test()
-	public void twoSameTimeJsonFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimeJsonFileThreadsWithDifferentPageObjectSameFile() {
 		
-
 		JsonFileProcessor pfp1 = Mockito.spy(JsonFileProcessor.class);
 		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
 
@@ -82,10 +78,8 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Json file processor at almost same time updating different
 	// page object data from different file
 	@Test()
-	public void twoSameTimeJsonFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimeJsonFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		JsonFileProcessor pfp1 = Mockito.spy(JsonFileProcessor.class);
 		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
 
@@ -102,10 +96,8 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Json file processor at different time updating different
 	// page object data from same file
 	@Test()
-	public void twoDifferentTimeJsonFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimeJsonFileThreadsWithDifferentPageObjectSameFile() {
 		
-
 		JsonFileProcessor pfp1 = Mockito.spy(JsonFileProcessor.class);
 		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
 
@@ -122,10 +114,8 @@ public class JsonFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Json file processor at different time updating different
 	// page object data from different file
 	@Test()
-	public void twoDifferentTimeJsonFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimeJsonFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		JsonFileProcessor pfp1 = Mockito.spy(JsonFileProcessor.class);
 		JsonFileProcessor pfp2 = Mockito.spy(JsonFileProcessor.class);
 

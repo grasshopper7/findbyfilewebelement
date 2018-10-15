@@ -15,8 +15,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at same time updating same
 	// page object data	
 	@Test()
-	public void twoSameTimePropertiesFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimePropertiesFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -28,6 +27,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 
 		FileProcessor[] fp = { pfp1, pfp2 };
 		TestPage[] tp = { new PageObjectPropertiesFirst(), new PageObjectPropertiesFirst() };
+		//Either thread can enter methods so cannot give exact counts, thus mx counts
 		Integer[] checkCalls = { 1, 1 };
 		Integer[] parseCalls = { 1, 1 };
 		String[] annotations = { PropertiesAnnotation.getFindByAnnotationFullName(),
@@ -40,8 +40,7 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at different time updating same
 	// page object data
 	@Test()
-	public void twoDifferentTimePropertiesFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimePropertiesFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -64,10 +63,8 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at almost same time updating different
 	// page object data from same file
 	@Test()
-	public void twoSameTimePropertiesFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimePropertiesFileThreadsWithDifferentPageObjectSameFile() {
 		
-
 		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
 		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);
 
@@ -85,10 +82,8 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at almost same time updating different
 	// page object data from different file
 	@Test()
-	public void twoSameTimePropertiesFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimePropertiesFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
 		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);
 
@@ -105,10 +100,8 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at different time updating different
 	// page object data from same file
 	@Test()
-	public void twoDifferentTimePropertiesFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimePropertiesFileThreadsWithDifferentPageObjectSameFile() {
 		
-
 		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
 		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);
 
@@ -125,10 +118,8 @@ public class PropertiesFPMultipleThreadCacheTest extends BaseMultipleThreadCache
 	// Two threads of properties file processor at different time updating different
 	// page object data from different file
 	@Test()
-	public void twoDifferentTimePropertiesFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimePropertiesFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		PropertiesFileProcessor pfp1 = Mockito.spy(PropertiesFileProcessor.class);
 		PropertiesFileProcessor pfp2 = Mockito.spy(PropertiesFileProcessor.class);
 

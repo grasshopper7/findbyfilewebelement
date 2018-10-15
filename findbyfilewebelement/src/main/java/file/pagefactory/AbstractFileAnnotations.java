@@ -28,7 +28,9 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	public By buildBy(boolean fieldAnnotationExists) {
 		//assertValidAnnotations();
 		if (fieldAnnotationExists) {
+			System.out.println(Thread.currentThread().getId() + "---" + "Before initial check data "+getField().getName());
 			if (!FieldByCache.doesByExistForField(getField())) {
+				System.out.println(Thread.currentThread().getId() + "---" + "Initial check data failed "+getField().getName());
 				synchronized (obj) {
 					System.out.println(Thread.currentThread().getId() + "---" + "Synchronize data In here");
 					fileProcessor.populateData(getField());			

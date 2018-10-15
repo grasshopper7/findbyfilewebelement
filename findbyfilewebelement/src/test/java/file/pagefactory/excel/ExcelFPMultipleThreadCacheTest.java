@@ -13,8 +13,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at same time updating same
 	// page object data	
 	@Test()
-	public void twoSameTimeExcelFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimeExcelFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -37,8 +36,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at different time updating same
 	// page object data
 	@Test()
-	public void twoDifferentTimeExcelFileThreadsWithSamePageObject()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimeExcelFileThreadsWithSamePageObject() {
 
 		// Second thread will be not enter the if condition in AbstractFileAnnotations
 		// buildBy(boolean) method and return. This will not enter the
@@ -61,9 +59,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at almost same time updating different
 	// page object data from same file
 	@Test()
-	public void twoSameTimeExcelFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
-		
+	public void twoSameTimeExcelFileThreadsWithDifferentPageObjectSameFile() {
 
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
 		ExcelFileProcessor pfp2 = Mockito.spy(ExcelFileProcessor.class);
@@ -82,10 +78,8 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at almost same time updating different
 	// page object data from different file
 	@Test()
-	public void twoSameTimeExcelFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoSameTimeExcelFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
 		ExcelFileProcessor pfp2 = Mockito.spy(ExcelFileProcessor.class);
 
@@ -102,9 +96,7 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at different time updating different
 	// page object data from same file
 	@Test()
-	public void twoDifferentTimeExcelFileThreadsWithDifferentPageObjectSameFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
-		
+	public void twoDifferentTimeExcelFileThreadsWithDifferentPageObjectSameFile() {
 
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
 		ExcelFileProcessor pfp2 = Mockito.spy(ExcelFileProcessor.class);
@@ -122,10 +114,8 @@ public class ExcelFPMultipleThreadCacheTest extends BaseMultipleThreadCacheTest{
 	// Two threads of Excel file processor at different time updating different
 	// page object data from different file
 	@Test()
-	public void twoDifferentTimeExcelFileThreadsWithDifferentPageObjectDifferentFile()
-			throws NoSuchFieldException, SecurityException, InterruptedException {
+	public void twoDifferentTimeExcelFileThreadsWithDifferentPageObjectDifferentFile() {
 		
-
 		ExcelFileProcessor pfp1 = Mockito.spy(ExcelFileProcessor.class);
 		ExcelFileProcessor pfp2 = Mockito.spy(ExcelFileProcessor.class);
 
