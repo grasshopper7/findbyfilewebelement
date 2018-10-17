@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>findbyfilewebelement</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>Selenium File Locators</name>
 	<description>Storing Element Locators in excel, json and properties files</description>
 	<url>https://github.com/grasshopper7/findbyfilewebelement</url>
