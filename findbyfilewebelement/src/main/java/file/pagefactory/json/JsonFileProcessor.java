@@ -31,7 +31,7 @@ public class JsonFileProcessor implements FileProcessor {
 		// If data is got from previous parsing then return.
 		/*if (FieldByCache.doesByExistForField(field))
 			return;*/
-		System.out.println(Thread.currentThread().getId() + "---" + "Processing Json");
+		//System.out.println(Thread.currentThread().getId() + "---" + "Processing Json");
 		Type FIELD_BY_DETAILS = new TypeToken<List<ClassDetails>>() {}.getType();
 		Gson gson = new Gson();
 

@@ -1,6 +1,7 @@
 package file.pagefactory;
 
 import java.lang.reflect.Field;
+import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindAll;
@@ -12,7 +13,6 @@ public abstract class AbstractFileAnnotations extends Annotations {
 
 	protected FileProcessor fileProcessor;
 	private static Object obj = new Object();
-
 
 	public AbstractFileAnnotations(Field field, FileProcessor fileProcessor) {
 		super(field);
@@ -28,11 +28,11 @@ public abstract class AbstractFileAnnotations extends Annotations {
 	public By buildBy(boolean fieldAnnotationExists) {
 		//assertValidAnnotations();
 		if (fieldAnnotationExists) {
-			System.out.println(Thread.currentThread().getId() + "---" + "Before initial check data "+getField().getName());
+			//System.out.println(Thread.currentThread().getId() + "---" + "Before initial check data "+getField().getName());
 			if (!FieldByCache.doesByExistForField(getField())) {
-				System.out.println(Thread.currentThread().getId() + "---" + "Initial check data failed "+getField().getName());
+				//System.out.println(Thread.currentThread().getId() + "---" + "Initial check data failed "+getField().getName());
 				synchronized (obj) {
-					System.out.println(Thread.currentThread().getId() + "---" + "Synchronize data In here");
+					//System.out.println(Thread.currentThread().getId() + "---" + "Synchronize data In here");
 					fileProcessor.populateData(getField());			
 				}
 			}

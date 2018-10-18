@@ -28,7 +28,7 @@ public class PropertiesFileProcessor implements FileProcessor {
 	@Override
 	public void parseDataSource() {
 		Properties appProps = new Properties();
-		System.out.println(Thread.currentThread().getId() + "---" + "Processing Properties");
+		//System.out.println(Thread.currentThread().getId() + "---" + "Processing Properties");
 		try (FileInputStream fis = new FileInputStream(path);) {
 			appProps.load(fis);
 			Set<Object> keys = appProps.keySet();

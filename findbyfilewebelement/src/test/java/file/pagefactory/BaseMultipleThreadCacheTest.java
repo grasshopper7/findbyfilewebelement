@@ -45,8 +45,8 @@ public class BaseMultipleThreadCacheTest {
 	protected void createThreadsAssertCache(FileProcessor[] fp, TestPage[] pages, boolean differentPageObject,
 			boolean differentTime, Integer[] checkCalls, Integer[] parseCalls, String[] findByAnnotation) {
 		
-		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		System.out.println(stackTraceElements[2].getClassName() + "----" + stackTraceElements[2].getMethodName());
+		//StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+		//System.out.println(stackTraceElements[2].getClassName() + "----" + stackTraceElements[2].getMethodName());
 
 			try {
 				Thread[] threads = new Thread[fp.length];

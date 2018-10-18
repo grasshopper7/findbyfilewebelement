@@ -20,7 +20,7 @@ public class FileElementLocatorFactory implements ElementLocatorFactory {
 	@Override
 	public ElementLocator createLocator(Field field) {		
 		//StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		System.out.println("Locator Factory -- "+Thread.currentThread().getId() /*+ "----" + stackTraceElements[3].getClassName() + "----" + stackTraceElements[3].getMethodName()*/);
+		//System.out.println("Locator Factory -- "+Thread.currentThread().getId() /*+ "----" + stackTraceElements[3].getClassName() + "----" + stackTraceElements[3].getMethodName()*/);
 		return new DefaultElementLocator(searchContext, fileProcessor.getAnnotation(field));
 	}
 }
